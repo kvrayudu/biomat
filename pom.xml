@@ -54,6 +54,8 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+
 		<!--   CUSTOM -->
 
 		<dependency>
@@ -77,6 +79,10 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		
+        <dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-crypto</artifactId>
+		</dependency>
         <!--   END CUSTOM -->
         
 		<dependency>
