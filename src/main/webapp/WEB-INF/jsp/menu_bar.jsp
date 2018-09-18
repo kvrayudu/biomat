@@ -37,8 +37,13 @@
 			                       
 			  </ul>
 		</li>
-      
-		
-		<li><a href="login">login</a></li>
+		<c:choose>
+			<c:when test ="${empty pageContext.request.remoteUser}">
+				<li><a href="login">Login</a></li>		
+			</c:when>
+			<c:otherwise>
+				<li><a href="login">Logout</a></li>
+			</c:otherwise>
+		</c:choose>
       </ul>
 </nav>
