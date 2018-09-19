@@ -1,5 +1,6 @@
 package edu.cornell.cals.biomat.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,19 +51,22 @@ public class BioMaterialsController {
 	}	
 
 	@PostMapping("/updateBioMaterial")
-	public ModelAndView updateBioMaterialPage(HttpServletRequest request, @Valid @ModelAttribute BioMaterial bioMaterial, BindingResult bindingResult,@AuthenticationPrincipal User user) {
-		logger.info("POST updateBioMaterial:user {}  {}", bioMaterial , user);
+	public ModelAndView updateBioMaterialPage(HttpServletRequest request, @Valid @ModelAttribute BioMaterial bioMaterial, BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
+		logger.info("POST updateBioMaterial:user {}  {}", bioMaterial , principal);
 		ModelAndView  mv ;
 		if(bindingResult.hasErrors()) {
 			logger.info("Error in Form Submission.  NOT Updating Data. ");
 			mv = new ModelAndView("materials/updateBioMaterial","bioMaterial",bioMaterial);
 			
 		}
+		else if(principal ==null) {
+			throw new RuntimeException("USer is not authorized to update a material");
+		}
 		else if(bioMaterial.getUsdaId()!=null) {
 			throw new RuntimeException("USDA Material can't be updated");
 		}
 		else {
-			BioMaterial bm = bioMaterialService.updateBioMaterial(bioMaterial,user.getUsername());
+			BioMaterial bm = bioMaterialService.updateBioMaterial(bioMaterial,principal.getName());
 			logger.info("bioMaterialService.updateBioMaterial {}", bm);		
 			mv = new ModelAndView("materials/updateBioMaterial","bioMaterial",bm);
 			mv.addObject("message", "Successfully Updated Bio-Material");
