@@ -1,5 +1,6 @@
 package edu.cornell.cals.biomat.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,16 +49,18 @@ public class BioVariableController {
 	}	
 
 	@PostMapping("/updateBioVariable")
-	public ModelAndView updateBioVariablePage(HttpServletRequest request, @Valid @ModelAttribute BioVariable bioVariable, BindingResult bindingResult,@AuthenticationPrincipal User user) {
-		logger.info("POST updateBioVariable:user {}  {}", bioVariable, user);
+	public ModelAndView updateBioVariablePage(HttpServletRequest request, @Valid @ModelAttribute BioVariable bioVariable, BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
+		logger.info("POST updateBioVariable:user {}  {}", bioVariable, principal);
 		ModelAndView  mv ;
 		if(bindingResult.hasErrors()) {
 			logger.info("Error in Form Submission.  NOT Updating Data. ");
 			mv = new ModelAndView("variables/updateBioVariable","bioVariable",bioVariable);
-			
+		}
+		else if(principal ==null) {
+			throw new RuntimeException("User is not Authorized to update Variables");
 		}
 		else {
-			BioVariable bv = bioVariableService.updateBioVariable(bioVariable,user.getUsername());
+			BioVariable bv = bioVariableService.updateBioVariable(bioVariable,principal.getName());
 			logger.info("bioVariableService.updateBioVariable {}", bv);		
 			mv = new ModelAndView("variables/updateBioVariable","bioVariable",bv);
 			mv.addObject("message", "Successfully Updated Bio-Variable");
