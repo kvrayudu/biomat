@@ -60,7 +60,7 @@ public class BioMaterialsController {
 			
 		}
 		else if(principal ==null) {
-			throw new RuntimeException("USer is not authorized to update a material");
+			throw new RuntimeException("User is not authorized to update a material");
 		}
 		else if(bioMaterial.getUsdaId()!=null) {
 			throw new RuntimeException("USDA Material can't be updated");
@@ -69,7 +69,7 @@ public class BioMaterialsController {
 			BioMaterial bm = bioMaterialService.updateBioMaterial(bioMaterial,principal.getName());
 			logger.info("bioMaterialService.updateBioMaterial {}", bm);		
 			mv = new ModelAndView("materials/updateBioMaterial","bioMaterial",bm);
-			mv.addObject("message", "Successfully Updated Bio-Material");
+			mv.addObject("successMessage", "Successfully Updated Bio-Material");
 		}
 		return mv;
 	}	
