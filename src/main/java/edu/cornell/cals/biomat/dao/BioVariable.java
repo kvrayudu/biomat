@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="bio_variable")
-@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
+@JsonIgnoreProperties({"createdAt", "updatedAt","siUnit","description","symbol","addedBy","updatedBy"})
 @EntityListeners(AuditingEntityListener.class)
 public class BioVariable implements Serializable{
 	private static final long serialVersionUID = 5843943351188943018L;

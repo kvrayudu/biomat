@@ -12,7 +12,7 @@
 		
 		<p>&nbsp;</p>	
 		<h5 class="text-info">Update Bio-Material - ${bioMaterial.id} - ${bioMaterial.shortDesc} - Last Updated By: ${bioMaterial.updatedBy} - Last Updated at: ${bioMaterial.updatedAt}</h2>
-		<h5 class="text-success">${message}</h2>
+		<h5 class="text-success">${successMessage}</h5>
 		<p>&nbsp;</p>
 
 

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class BioMaterialSearchForm implements Serializable{
+	private static final long serialVersionUID = -6859715018342757198L;
 	@NotNull
 	@Size(min=2, max=300)
 	private String bioMaterialName;
