@@ -14,7 +14,7 @@
 				<h5 class="text-danger">Invalid Credentials.  Please try again</h2>
 			</c:when>
 			<c:otherwise>
-				<h5 class="text-success">Successfully Loggen in  ${pageContext.request.remoteUser}</h2>		
+				<h5 class="text-success">Successfully logged in  ${pageContext.request.remoteUser}</h2>		
 			</c:otherwise>
 		</c:choose>
 
@@ -30,7 +30,7 @@
   			</div>
 
 	        <div class="form-group">
-    			<label class="control-label col-sm-2" for="email">Password"</label>
+    			<label class="control-label col-sm-2" for="email">Password:</label>
 			    <div class="col-sm-4">
       				<input type = "password" class="form-control"  name="password"   placeholder="Please Enter Password"/>
     			</div>

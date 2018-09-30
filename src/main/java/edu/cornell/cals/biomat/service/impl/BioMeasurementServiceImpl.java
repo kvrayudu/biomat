@@ -21,12 +21,12 @@ public class BioMeasurementServiceImpl implements BioMeasurementService {
 	Logger logger = LoggerFactory.getLogger(BioMeasurementServiceImpl.class);
 	
 	@Override
-	public List<BioMeasurement> addBioMaterial(Long materialId, Integer variableId, String citation, String doi, List<MeasurementPair> mpList, String userId) {
-		logger.info("Start {},  {},  {}, {}, {}, {}" + materialId, variableId, citation, doi,  mpList, userId);
+	public List<BioMeasurement> addBioMaterial(Long materialId,  String citation, String doi, List<MeasurementPair> mpList, String userId) {
+		logger.info("Start {},  {},  {}, {}, {}" + materialId,citation, doi,  mpList, userId);
 		List<BioMeasurement> bmList = new ArrayList<BioMeasurement>();
 		
 		mpList.stream().forEach(mp->{
-			bmList.add(createBioMeasurement(materialId, variableId, citation, doi, mp.getMeasurementValue(), mp.getErrorValue(), userId));
+			bmList.add(createBioMeasurement(materialId, mp.getId(), citation, doi, mp.getMeasurementValue(), mp.getErrorValue(), userId));
 			});
 		
 		logger.info("About to Update {} " , bmList);

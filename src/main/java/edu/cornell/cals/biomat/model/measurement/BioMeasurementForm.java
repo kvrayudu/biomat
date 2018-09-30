@@ -11,6 +11,9 @@ public class BioMeasurementForm implements  Serializable{
 	
 	@NotNull
 	private Long materialId;
+
+	private String materialName;
+	
 	@NotNull
 	private Integer variableId;
 	@NotNull
@@ -52,11 +55,19 @@ public class BioMeasurementForm implements  Serializable{
 	public void setMeasurementPairs(List<MeasurementPair> measurementPairs) {
 		this.measurementPairs = measurementPairs;
 	}
+	public String getMaterialName() {
+		return materialName;
+	}
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
+	}
 	@Override
 	public String toString() {
-		return "BioMeasurementForm [materialId=" + materialId + ", variableId=" + variableId + ", citation=" + citation
-				+ ", doi=" + doi + ", measurementPairs=" + measurementPairs + "]";
+		return "BioMeasurementForm [materialId=" + materialId + ", materialName=" + materialName + ", variableId="
+				+ variableId + ", citation=" + citation + ", doi=" + doi + ", measurementPairs=" + measurementPairs
+				+ "]";
 	}
+	
 	
 	
 }

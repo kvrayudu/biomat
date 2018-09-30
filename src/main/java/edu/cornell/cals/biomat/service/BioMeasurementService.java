@@ -7,6 +7,6 @@ import edu.cornell.cals.biomat.model.measurement.MeasurementPair;
 
 public interface BioMeasurementService {
 	
-	List<BioMeasurement> addBioMaterial(Long materialId, Integer variableId, String citation, String doi, List<MeasurementPair> mpList, String userId);
+	List<BioMeasurement> addBioMaterial(Long materialId,  String citation, String doi, List<MeasurementPair> mpList, String userId);
 
 }

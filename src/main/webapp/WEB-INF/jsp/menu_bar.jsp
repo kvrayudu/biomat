@@ -47,3 +47,17 @@
 		</c:choose>
       </ul>
 </nav>
+<div id="welcomeBar"> 
+		<c:choose>
+			<c:when test ="${empty pageContext.request.remoteUser}">
+				<div class="col-sm-12 text-primary text-right">
+					Welcome Guest
+				</div>			
+			</c:when>
+			<c:otherwise>
+				<div class="col-sm-12 text-primary text-right">
+					Welcome ${pageContext.request.remoteUser}
+				</div>			
+			</c:otherwise>
+		</c:choose>
+</div>
