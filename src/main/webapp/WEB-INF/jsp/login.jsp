@@ -8,7 +8,7 @@
 <div class="container">
 	<div id="topbar"> <%@ include file = "top_bar.jsp" %></div>
 	<div id="menubar"> <%@ include file = "menu_bar.jsp" %></div>
-	
+	<!-- 
 		<c:choose>
 			<c:when test ="${empty pageContext.request.remoteUser}">
 				<h5 class="text-danger">Invalid Credentials.  Please try again</h2>
@@ -17,7 +17,7 @@
 				<h5 class="text-success">Successfully logged in  ${pageContext.request.remoteUser}</h2>		
 			</c:otherwise>
 		</c:choose>
-
+-->
 
         <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
         <form:form  action="/login"  method="post" class="form-horizontal"  >

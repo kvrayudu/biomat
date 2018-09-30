@@ -30,33 +30,30 @@
 	</li>
 	
 	<li><a href="home">Groups</a></li>
-        <li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown">xxx<span class="caret"></span></a>
-			  <ul class="dropdown-menu" role="menu">
-				<li><a href="BookingLookup.html">Bookings Lookup</a></li>
-			                       
-			  </ul>
-		</li>
-		<c:choose>
-			<c:when test ="${empty pageContext.request.remoteUser}">
-				<li><a href="login">Login</a></li>		
-			</c:when>
-			<c:otherwise>
-				<li><a href="login">Logout</a></li>
-			</c:otherwise>
-		</c:choose>
-      </ul>
+	
+    <li class="dropdown">
+		<a class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
+		 <ul class="dropdown-menu" role="menu">
+			<li><a href="s.html">Manage Materials</a></li>
+			<li><a href="s.html">Manage Variables</a></li>
+			<li><a href="s.html">Manage Formula</a></li>
+			<li><a href="s.html">Manage Input Points</a></li>
+		  </ul>
+	</li>
+     </ul>
 </nav>
 <div id="welcomeBar"> 
 		<c:choose>
 			<c:when test ="${empty pageContext.request.remoteUser}">
 				<div class="col-sm-12 text-primary text-right">
-					Welcome Guest
+					Welcome Guest &nbsp; <a href="login">Login</a>
 				</div>			
 			</c:when>
 			<c:otherwise>
 				<div class="col-sm-12 text-primary text-right">
-					Welcome ${pageContext.request.remoteUser}
+					<form name="logoutForm" method="POST" action="/logout">
+    					Welcome ${pageContext.request.remoteUser} &nbsp;<A HREF="javascript:document.logoutForm.submit()">Logout</A>
+					</form>
 				</div>			
 			</c:otherwise>
 		</c:choose>
