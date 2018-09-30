@@ -26,12 +26,6 @@ public class BioMaterialUserDetailsServiceImpl implements UserDetailsService{
 		logger.info("Start userName {} " + username);
 		BioUser bu = bioUserRepository.getBioUserByUserName(username);
 		logger.info("Fetched  {} " + bu);
-		/*
-		BioUser bu =  new BioUser();
-		bu.setActive("1");
-		bu.setUserRole("Contributor");
-		bu.setUserName("test");
-		*/
 		return new BioUserPrincipal( bu);
 	}
 

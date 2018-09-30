@@ -224,8 +224,8 @@ $('#materialId').inputpicker({
 
 $('#variableId').inputpicker({
     url: 'getVariables',
-    fields:['id','name', 'isFactor'],
-    fieldText : 'name',
+    fields:['id','nameAndVariableOrFactor'],
+    fieldText : 'nameAndVariableOrFactor',
     fieldValue : 'id',
     headShow: true,
     filterOpen: true,

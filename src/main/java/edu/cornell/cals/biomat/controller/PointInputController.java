@@ -65,7 +65,7 @@ public class PointInputController {
 			logger.info("filteredMeasurementPairs {}" , filteredMeasurementPairs);
 			List<BioMeasurement> bmList = bioMeasurementService.addBioMaterial(bioMeasurementForm.getMaterialId(),bioMeasurementForm.getCitation(), bioMeasurementForm.getDoi(), filteredMeasurementPairs, principal.getName());
 			logger.info("Updated BioMeasurements {}", bmList);
-			mv.addObject("successMessage", "Successfully Added Input Points");
+			mv.addObject("successMessage", "Thanks for the Input Point Data.  A message is sent to the administrator for approval. You will get another email when administrator takes an action. ");
 		}
 		
 		return mv;

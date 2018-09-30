@@ -41,7 +41,6 @@ public class BioMeasurementServiceImpl implements BioMeasurementService {
 		BM.setVariableId(variableId);
 		BM.setCitation(citation);
 		BM.setDoi(doi);
-		BM.setIsFactor("1");
 		BM.setIsApproved("0");
 		BM.setAddedBy(userId);
 		BM.setMeasuredValue(measuredValue);

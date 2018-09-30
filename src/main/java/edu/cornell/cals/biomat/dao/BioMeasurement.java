@@ -38,7 +38,6 @@ public class BioMeasurement implements Serializable{
 	
 	private String citation;
 	private String doi;
-	private String isFactor;
 	private String isApproved;
 	
 	
@@ -122,13 +121,6 @@ public class BioMeasurement implements Serializable{
 		this.doi = doi;
 	}
 
-	public String getIsFactor() {
-		return isFactor;
-	}
-
-	public void setIsFactor(String isFactor) {
-		this.isFactor = isFactor;
-	}
 
 	public String getIsApproved() {
 		return isApproved;
@@ -174,7 +166,7 @@ public class BioMeasurement implements Serializable{
 	public String toString() {
 		return "BioMeasurement [id=" + id + ", materialId=" + materialId + ", variableId=" + variableId + ", groupId="
 				+ groupId + ", measuredValue=" + measuredValue + ", errorValue=" + errorValue + ", citation=" + citation
-				+ ", doi=" + doi + ", isFactor=" + isFactor + ", isApproved=" + isApproved + ", addedBy=" + addedBy
+				+ ", doi=" + doi + ", isApproved=" + isApproved + ", addedBy=" + addedBy
 				+ ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
