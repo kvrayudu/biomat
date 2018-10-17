@@ -33,7 +33,7 @@
 		</p>
 	
 		<!--  PAGER START -->
-		<form:form  action="/searchBioMaterials"  method="post"  modelAttribute="bioMaterialSearchForm" >
+		<form:form  action="searchBioMaterials"  method="post"  modelAttribute="bioMaterialSearchForm" >
 			<form:hidden  value= "${bioMaterialSearchResultsForm.bioMaterialSearchForm.bioMaterialName }" path="bioMaterialName"/>
 			<form:hidden  value= "${bioMaterialSearchResultsForm.bioMaterialSearchForm.usdaOnly}" path="usdaOnly"/>
 			
@@ -87,12 +87,12 @@
 		    </button>
 		    <c:choose>
 		    	<c:when test="${bioMaterial.usdaId gt 0}">
-			     <a href="/updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default disabled">
+			     <a href="updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default disabled">
 			    	  <span class="glyphicon glyphicon-edit"></span> Edit
 			     </a>
 			     </c:when>
 			     <c:otherwise>
-				     <a href="/updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default ">
+				     <a href="updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default ">
 				    	  <span class="glyphicon glyphicon-edit"></span> Edit
 				     </a>
 			     </c:otherwise>

@@ -20,7 +20,7 @@
 -->
 
         <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
-        <form:form  action="/login"  method="post" class="form-horizontal"  >
+        <form:form  action="./login"  method="post" class="form-horizontal"  >
 
 	        <div class="form-group">
     			<label class="control-label col-sm-2" for="email">User Name:</label>

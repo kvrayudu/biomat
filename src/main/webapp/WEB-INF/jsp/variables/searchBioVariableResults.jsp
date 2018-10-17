@@ -21,7 +21,7 @@
 		</p>
 	
 		<!--  PAGER START -->
-		<form:form  action="/searchBioVariables"  method="post"  modelAttribute="bioVariableSearchForm" >
+		<form:form  action="./searchBioVariables"  method="post"  modelAttribute="bioVariableSearchForm" >
 			<form:hidden  value= "${bioVariableSearchResultsForm.bioVariableSearchForm.name }" path="name"/>
 			
 			<button type="submit" name="pageNumber"  value = "0" class="btn btn-default  btn-xs">Start</button>
@@ -84,7 +84,7 @@
 		    <button type="button" class="btn btn-default">
 		      <span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#id_${bioVariable.id}"></span> Details
 		    </button>
-		    <a href="/updateBioVariable?variableId=${bioVariable.id}" role="button" class="btn btn-default ">
+		    <a href="updateBioVariable?variableId=${bioVariable.id}" role="button" class="btn btn-default ">
 				<span class="glyphicon glyphicon-edit"></span> Edit
 			</a>
         </td>

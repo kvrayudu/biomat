@@ -14,7 +14,7 @@
 			<p>&nbsp;</p>
 	
 
-			<form:form  action="/searchBioVariables"  method="post"  modelAttribute="bioVariableSearchForm" >
+			<form:form  action="./searchBioVariables"  method="post"  modelAttribute="bioVariableSearchForm" >
 			
 			    <div class="form-group">
 			      <form:label class="text-info" path = "name">Bio-Variable Name</form:label>

@@ -6,9 +6,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +20,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -45,6 +49,16 @@ public class BioMeasurement implements Serializable{
 	
 	private String addedBy;
 	private String updatedBy;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "materialId", nullable = false, insertable=false, updatable=false)
+    @JsonIgnore
+    private BioMaterial bioMaterial;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "variableId", nullable = false, insertable=false, updatable=false)
+    @JsonIgnore
+    private BioVariable bioVariable;
 
 	
 	@Column(nullable = false, updatable = false)
@@ -162,13 +176,31 @@ public class BioMeasurement implements Serializable{
 		this.updatedAt = updatedAt;
 	}
 
+	public BioMaterial getBioMaterial() {
+		return bioMaterial;
+	}
+
+	public void setBioMaterial(BioMaterial bioMaterial) {
+		this.bioMaterial = bioMaterial;
+	}
+
+	public BioVariable getBioVariable() {
+		return bioVariable;
+	}
+
+	public void setBioVariable(BioVariable bioVariable) {
+		this.bioVariable = bioVariable;
+	}
+
 	@Override
 	public String toString() {
 		return "BioMeasurement [id=" + id + ", materialId=" + materialId + ", variableId=" + variableId + ", groupId="
 				+ groupId + ", measuredValue=" + measuredValue + ", errorValue=" + errorValue + ", citation=" + citation
-				+ ", doi=" + doi + ", isApproved=" + isApproved + ", addedBy=" + addedBy
-				+ ", updatedBy=" + updatedBy + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ ", doi=" + doi + ", isApproved=" + isApproved + ", addedBy=" + addedBy + ", updatedBy=" + updatedBy
+				+ ", bioMaterial=" + bioMaterial + ", bioVariable=" + bioVariable + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + "]";
 	}
+
 
     
     

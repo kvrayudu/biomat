@@ -19,7 +19,7 @@
 			
 			
 			
-			<form:form  action="/addPointInput"  method="post"  modelAttribute="bioMeasurementForm" >
+			<form:form  action="addPointInput"  method="post"  modelAttribute="bioMeasurementForm" >
 			<c:choose>
 				<c:when test="${empty successMessage}">
 					<div class="form-group row">
