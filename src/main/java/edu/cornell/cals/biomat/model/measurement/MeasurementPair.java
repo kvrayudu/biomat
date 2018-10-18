@@ -1,10 +1,24 @@
 package edu.cornell.cals.biomat.model.measurement;
 
-import java.util.List;
-
 public class MeasurementPair{
+	
+	private Integer id;
+	private String name;
+	
 	private Double  measurementValue;
 	private Double errorValue;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public Double getMeasurementValue() {
 		return measurementValue;
 	}
@@ -19,8 +33,10 @@ public class MeasurementPair{
 	}
 	@Override
 	public String toString() {
-		return "MeasurementPair [measurementValue=" + measurementValue + ", errorValue=" + errorValue + "]";
+		return "MeasurementPair [id=" + id + ", name=" + name + ", measurementValue=" + measurementValue
+				+ ", errorValue=" + errorValue + "]";
 	}
+	
 
 	
 	

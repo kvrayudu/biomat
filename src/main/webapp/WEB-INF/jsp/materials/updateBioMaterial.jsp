@@ -16,7 +16,7 @@
 		<p>&nbsp;</p>
 
 
-		<form:form  class="form-horizontal" action="/updateBioMaterial"  method="post"  modelAttribute="bioMaterial">
+		<form:form  class="form-horizontal" action="updateBioMaterial"  method="post"  modelAttribute="bioMaterial">
 			<form:hidden  value= "${bioMaterial.id}" path="id"/>
 			<form:hidden  value= "${bioMaterial.usdaId}" path="usdaId"/>
 		    <div class="form-group">

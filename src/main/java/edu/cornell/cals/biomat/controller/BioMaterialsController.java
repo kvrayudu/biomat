@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchResultsForm;
+import edu.cornell.cals.biomat.service.BioMatEmailService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
 
 @Controller
@@ -37,10 +38,43 @@ public class BioMaterialsController {
 	
 	@Autowired
 	protected BioMaterialService bioMaterialService;
+	@Autowired
+	BioMatEmailService bioMatEmailService;
+
+	@GetMapping("addBioMaterial")
+	public ModelAndView displayAddBioMaterialPage() {
+		logger.info("displayAddBioMaterialPage ");
+		BioMaterial bioMaterial = new BioMaterial();
+		ModelAndView  mv = new ModelAndView("materials/addBioMaterial","bioMaterial",bioMaterial);
+		return mv;
+	}	
 	
+	@PostMapping("addBioMaterial")
+	public ModelAndView addBioMaterial(HttpServletRequest request, @Valid @ModelAttribute BioMaterial bioMaterial, BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
+		logger.info("POST addBioMaterial:user {}  {}", bioMaterial , principal);
+		ModelAndView  mv ;
+		if(bindingResult.hasErrors()) {
+			logger.info("Error in Form Submission.  NOT Updating Data. ");
+			mv = new ModelAndView("materials/addBioMaterial","bioMaterial",bioMaterial);
+			
+		}
+		else if(principal ==null) {
+			throw new RuntimeException("User is not authorized to update a material");
+		}
+		else {
+			bioMaterial.setAddedBy(principal.getName());
+			BioMaterial bm = bioMaterialService.updateBioMaterial(bioMaterial,principal.getName());
+			logger.info("bioMaterialService.updateBioMaterial {}", bm);		
+			mv = new ModelAndView("materials/addBioMaterial","bioMaterial",bm);
+			mv.addObject("successMessage", "Successfully Added Bio-Material");
+			mv.addObject("successMessage", "Thanks for Contributing your Bio-Material.  A message is sent to the administrator for approval. You will get another email when administrator takes an action.");
+			bioMatEmailService.emailBioMaterialAdded(principal);
+		}
+		return mv;	
+	}	
+
 	
-	
-	@GetMapping("/updateBioMaterial")
+	@GetMapping("updateBioMaterial")
 	public ModelAndView displayUpdateBioMaterialPage(@RequestParam(value="materialId", required=true) Long materialId) {
 		logger.info("updateBioMaterial {}", materialId );
 		BioMaterial bioMaterial = bioMaterialService.getBioMaterial(materialId);
@@ -50,7 +84,7 @@ public class BioMaterialsController {
 		return mv;
 	}	
 
-	@PostMapping("/updateBioMaterial")
+	@PostMapping("updateBioMaterial")
 	public ModelAndView updateBioMaterialPage(HttpServletRequest request, @Valid @ModelAttribute BioMaterial bioMaterial, BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
 		logger.info("POST updateBioMaterial:user {}  {}", bioMaterial , principal);
 		ModelAndView  mv ;
@@ -75,7 +109,7 @@ public class BioMaterialsController {
 	}	
 
 	
-	@GetMapping("/searchBioMaterials")
+	@GetMapping("searchBioMaterials")
 	public ModelAndView displaySearchBioMaterialsPage(@ModelAttribute BioMaterialSearchForm bioMaterialSearchForm) {
 	        
 		logger.info("Start searchBioMaterials {}" , bioMaterialSearchForm);
@@ -86,7 +120,7 @@ public class BioMaterialsController {
 		return mv;
 	}
 	
-	@PostMapping("/searchBioMaterials")
+	@PostMapping("searchBioMaterials")
 	public ModelAndView paginatedBioMaterialsResultsPage(HttpServletRequest request, @ModelAttribute @Valid BioMaterialSearchForm bioMaterialSearchForm,BindingResult bindingResult,  @RequestParam(value="pageNumber", required=false, defaultValue = "0") Integer pageNumber) {
 		logger.info("Start searchBioMaterials with params {}",bioMaterialSearchForm);;
 		ModelAndView  mv =null;

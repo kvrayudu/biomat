@@ -20,3 +20,12 @@
  <head>
  
  
+ <c:choose>
+	 <c:when test ="${not empty pageContext.request.remoteUser}">
+	 	<c:set var = "userRole" scope = "session" value = "${pageContext.request.userPrincipal.principal.bioUser.userRole}"/>
+	 </c:when>
+	 <c:otherwise>
+	 	<c:set var = "userRole" scope = "session" value = "Guest"/>
+	 </c:otherwise> 
+ </c:choose>
+  

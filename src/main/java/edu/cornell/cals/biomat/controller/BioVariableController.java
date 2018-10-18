@@ -38,7 +38,7 @@ public class BioVariableController {
 	@Autowired
 	protected BioVariableService bioVariableService;
 	
-	@GetMapping("/updateBioVariable")
+	@GetMapping("updateBioVariable")
 	public ModelAndView displayUpdateBioVariablePage(@RequestParam(value="variableId", required=true) Integer variableId) {
 		logger.info("updateBioVariable {} ", variableId );
 		BioVariable bioVariable= bioVariableService.getBioVariable(variableId);
@@ -48,7 +48,7 @@ public class BioVariableController {
 		return mv;
 	}	
 
-	@PostMapping("/updateBioVariable")
+	@PostMapping("updateBioVariable")
 	public ModelAndView updateBioVariablePage(HttpServletRequest request, @Valid @ModelAttribute BioVariable bioVariable, BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
 		logger.info("POST updateBioVariable:user {}  {}", bioVariable, principal);
 		ModelAndView  mv ;
@@ -71,7 +71,7 @@ public class BioVariableController {
 
 	
 	
-	@GetMapping("/searchBioVariables")
+	@GetMapping("searchBioVariables")
 	public ModelAndView displaySearchBioVariablesPage(@ModelAttribute BioVariableSearchForm bioVariableSearchForm) {
 	        
 		logger.info("Start searchBioVariable {}" , bioVariableSearchForm);
@@ -83,7 +83,7 @@ public class BioVariableController {
 	}
 
 	
-	@PostMapping("/searchBioVariables")
+	@PostMapping("searchBioVariables")
 	public ModelAndView bioVariableResultsPage(HttpServletRequest request, @ModelAttribute @Valid BioVariableSearchForm bioVariableSearchForm,BindingResult bindingResult,  @RequestParam(value="pageNumber", required=false, defaultValue = "0") Integer pageNumber) {
 		logger.info("Start searchBioVariables with params {}",bioVariableSearchForm);;
 		ModelAndView  mv =null;

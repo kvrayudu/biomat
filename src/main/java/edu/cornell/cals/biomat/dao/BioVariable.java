@@ -55,6 +55,16 @@ public class BioVariable implements Serializable{
     @LastModifiedDate
     private Date updatedAt;
 
+    public String getNameAndVariableOrFactor() {
+    	String returnValue = name;
+    	if(isFactor == 1) {
+    		returnValue += " (Factor)";
+    	}
+    	else {
+    		returnValue += " (Variable)";
+    	}
+    	return returnValue;
+    }
 	public Integer getId() {
 		return id;
 	}

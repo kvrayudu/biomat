@@ -16,6 +16,13 @@ public class BCryptTest {
 		boolean match = encryptor.matches( "test", encodedPassword);
 		assert(match==true);
 		
+		encodedPassword = encryptor.encode("venky");
+		logger.info("bcrypt Value of venky  {} " + encodedPassword);
+		match = encryptor.matches( "venky", encodedPassword);
+		
+		assert(match==true);
+
+		
 	}
 	
 }

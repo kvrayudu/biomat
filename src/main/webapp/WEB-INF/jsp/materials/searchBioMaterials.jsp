@@ -14,7 +14,7 @@
 			<p>&nbsp;</p>
 	
 
-			<form:form  action="/searchBioMaterials"  method="post"  modelAttribute="bioMaterialSearchForm" >
+			<form:form  action="searchBioMaterials"  method="post"  modelAttribute="bioMaterialSearchForm" >
 			
 			    <div class="form-group">
 			      <form:label class="text-info" path = "bioMaterialName">Bio-Material Name</form:label>

@@ -55,4 +55,18 @@ public class BioUserPrincipal implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
+
+	public BioUser getBioUser() {
+		return bioUser;
+	}
+
+	public void setBioUser(BioUser bioUser) {
+		this.bioUser = bioUser;
+	}
+
+	@Override
+	public String toString() {
+		return "BioUserPrincipal [bioUser=" + bioUser + ", logger=" + logger + "]";
+	}
+	
 }
