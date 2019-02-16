@@ -22,4 +22,12 @@ public interface BioVariableRepository extends JpaRepository<BioVariable, Intege
 	
 	@Query(value="SELECT bv FROM BioVariable bv where bv.name like :nm")
 	Page<BioVariable> getBioVariableWithPagination(Pageable pageable,@Param("nm") String nm);
+
+
+	@Query(value="SELECT bv FROM BioVariable bv where bv.name = :nm")
+    BioVariable getVariableByName(@Param("nm") String nm);
+	
+	@Query(value="SELECT bv FROM BioVariable bv where bv.symbol = :symbol")
+    BioVariable getVariableBySymbol(@Param("symbol") String symbbol);
+
 }

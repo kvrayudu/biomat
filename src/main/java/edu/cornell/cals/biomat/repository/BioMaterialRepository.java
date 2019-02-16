@@ -24,4 +24,14 @@ public interface BioMaterialRepository extends JpaRepository<BioMaterial, Long> 
 		@Query(value="SELECT count(bm) FROM BioMaterial bm where bm.shortDesc like :shortDesc")
 	    Integer getBioMaterialCount(@Param("shortDesc") String shortDesc);
 
+		/*
+		 * select DISTINCT bm.id,bm.short_desc from bio_material bm
+			INNER join bio_formula_material bfm on bfm.material_id=bm.id
+				where bm.short_desc like 'c%';
+		 */
+		
+		@Query(value="SELECT DISTINCT bm FROM BioMaterial bm INNER join BioFormulaMaterial bfm on bfm.materialId=bm.id where bm.shortDesc like :shortDesc ")
+	    List<BioMaterial> getBioMaterialWithFormula(@Param("shortDesc") String shortDesc);
+		
+		
 }

@@ -85,6 +85,12 @@
 		    <button type="button" class="btn btn-default">
 		      <span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#id_${bioMaterial.id}"></span> Details
 		    </button>
+		  <!--   
+		   	<a href="graphBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default ">
+		    	  <span class="glyphicon glyphicon-stats"></span> Graph
+		     </a>
+		    -->
+		    
 		    <c:choose>
 		    	<c:when test="${bioMaterial.usdaId gt 0}">
 			     <a href="updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default disabled">

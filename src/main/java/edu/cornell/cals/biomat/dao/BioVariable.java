@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -144,7 +143,19 @@ public class BioVariable implements Serializable{
 				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		boolean equals = false;
+		if(obj instanceof BioVariable) {
+			equals = ((BioVariable)obj).getId() == this.getId();
+		}
+		return equals;
+	}
 	
+	@Override
+	public int hashCode() {
+	    return (int) id * name.hashCode() * name.hashCode();
+	}
 	
 	
 	
