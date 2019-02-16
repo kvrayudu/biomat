@@ -4,8 +4,10 @@
    <ul class="nav nav-tabs" role="tablist">
 	<li><a href="home">Home</a></li>
 	
-
-	<li><li><a href="searchBioMaterials">Search Bio-Materials</a></li></li>
+	<li><li><a href="searchBioMaterials">Bio-Materials</a></li></li>
+	<li><li><a href="bioMaterialNutrients">Bio-Material Nutrients</a></li></li>
+	<li><li><a href="bioObservedPoints">Observed Points</a></li></li>
+	<li><li><a href="graphBioMaterial">Chart Formula</a></li></li>
 	
     <li class="dropdown">
 		<a class="dropdown-toggle" data-toggle="dropdown">Bio-Variables<span class="caret"></span></a>
@@ -15,7 +17,7 @@
 	   </ul>
 	</li>
 	
-	<li><a href="home">Groups</a></li>
+
 	
 	<c:choose>
 		<c:when test ="${userRole eq 'ADMIN'}">	
@@ -35,7 +37,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="addBioMaterial">Add Bio-Material</a></li>
 						<li><a href="addPointInput">Add Data Point</a></li>
-						<li><a href="addBioMaterials">Add Formula</a></li>
+						<li><a href="addBioMaterialFormula">Add Formula</a></li>
 						<li><a href="addBioMaterials">Add Range</a></li>
 				   </ul>
 				</li>

@@ -24,9 +24,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.cornell.cals.biomat.dao.BioMaterial;
+import edu.cornell.cals.biomat.dao.BioMaterialNutrient;
+import edu.cornell.cals.biomat.dao.BioMeasurement;
+import edu.cornell.cals.biomat.model.material.BioMaterialNutrientForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchResultsForm;
+import edu.cornell.cals.biomat.model.material.BioObservedPointsForm;
+import edu.cornell.cals.biomat.repository.BioMeasurementRepository;
 import edu.cornell.cals.biomat.service.BioMatEmailService;
+import edu.cornell.cals.biomat.service.BioMaterialNutrientService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
 
 @Controller
@@ -40,7 +46,56 @@ public class BioMaterialsController {
 	protected BioMaterialService bioMaterialService;
 	@Autowired
 	BioMatEmailService bioMatEmailService;
+	@Autowired
+	protected BioMaterialNutrientService bioMaterialNutrientService;
+	@Autowired
+	protected BioMeasurementRepository bioMeasurementRepository;
 
+	@GetMapping("bioObservedPoints")
+	public ModelAndView displayBioObservedPoints() {
+		logger.info("displayBioObservedPoints");
+		BioObservedPointsForm bioObservedPointsForm = new BioObservedPointsForm();
+		
+		ModelAndView  mv = new ModelAndView("materials/bioObservedPoints","bioObservedPointsForm",bioObservedPointsForm);
+		return mv;
+	}	
+	
+	@PostMapping("bioObservedPoints")
+	public ModelAndView getBioObservedPoints(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
+		logger.info("getBioObservedPoints");
+		BioObservedPointsForm bioObservedPointsForm = new BioObservedPointsForm();
+		List<BioMeasurement> bioMeasurementList = bioMeasurementRepository.getBioMeasurementsByMaterialId(materialId);
+		logger.info("Fetched bioMeasurementList {}", bioMeasurementList.size()  );
+		bioObservedPointsForm.setSelectedBioMaterialId(materialId);
+		bioObservedPointsForm.setBioMeasurementList(bioMeasurementList);
+		ModelAndView  mv = new ModelAndView("materials/bioObservedPoints","bioObservedPointsForm",bioObservedPointsForm);
+		return mv;
+	}	
+
+	
+	@PostMapping("bioMaterialNutrients")
+	public ModelAndView getBioMaterialNutrients(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
+		logger.info("getBioMaterialNutrients");
+		BioMaterialNutrientForm bioMaterialNutrientForm = new BioMaterialNutrientForm();
+		List<BioMaterialNutrient> bioMaterialNutrientList = bioMaterialNutrientService.getNutrients(materialId);
+		logger.info("Fetched bioMaterialNutrientList {} {}", bioMaterialNutrientList.size()  );
+		bioMaterialNutrientForm.setSelectedBioMaterialId(materialId);
+		bioMaterialNutrientForm.setBioMaterialNutrientList(bioMaterialNutrientList);
+		ModelAndView  mv = new ModelAndView("materials/bioMaterialNutrients","bioMaterialNutrientForm",bioMaterialNutrientForm);
+		return mv;
+	}	
+
+	
+	@GetMapping("bioMaterialNutrients")
+	public ModelAndView displayBioMaterialNutrientsPage() {
+		logger.info("displayBioMaterialNutrientsPage");
+		BioMaterialNutrientForm bioMaterialNutrientForm = new BioMaterialNutrientForm();
+		ModelAndView  mv = new ModelAndView("materials/bioMaterialNutrients","bioMaterialNutrientForm",bioMaterialNutrientForm);
+		return mv;
+	}	
+
+	
+	
 	@GetMapping("addBioMaterial")
 	public ModelAndView displayAddBioMaterialPage() {
 		logger.info("displayAddBioMaterialPage ");

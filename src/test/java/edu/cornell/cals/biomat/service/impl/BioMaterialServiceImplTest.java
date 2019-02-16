@@ -2,6 +2,8 @@ package edu.cornell.cals.biomat.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,17 @@ public class BioMaterialServiceImplTest {
 		
 		@Test
 		public void getBioMaterial() {
-			Long id = 15959l;
+			Long id = 5000l;
 			BioMaterial bm =bioMaterialService.getBioMaterial(id);
 			assertThat( bm.getId()).isEqualTo(id);
-			assertThat( bm.getShortDesc()).startsWith("BUTTER");
+			assertThat( bm.getShortDesc()).startsWith("CHICKEN");
 			
 		}
+		
+		@Test
+	    public void getBioMaterialWithFormula(){
+			List<BioMaterial> bmList = bioMaterialService.getBioMaterialWithFormula("c%");
+			assertThat( bmList.size()>0);
+		}
+
 }
