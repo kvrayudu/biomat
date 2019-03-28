@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioFormulaMaterial;
+import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
 
 public interface BioFormulaMaterialService {
@@ -19,5 +20,8 @@ public interface BioFormulaMaterialService {
 
 	public List<BioFormula> getBioFormula(Long materialId, Integer variableID, Integer dependentVariableID);
 	public List<BioFormula> getBioFormula(List<BioFormulaMaterial>  bfmList, Integer variableID, Integer dependentVariableID);
+	List<BioMaterial> getBioMaterialByFormulaId(Long selectedFormulaId);
+	public void delete(String materialId, String formulaId);
+	void addBioFormula(Long selectedFormulaId, Long selectedBioMaterialId);
 	
 }

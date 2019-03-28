@@ -13,6 +13,7 @@ import edu.cornell.cals.biomat.dao.BioVariable;
 import edu.cornell.cals.biomat.model.BioMaterialNutrientModel;
 import edu.cornell.cals.biomat.model.formula.BioFormulaForm;
 import edu.cornell.cals.biomat.repository.BioFormulaRepository;
+import edu.cornell.cals.biomat.repository.FormulaRepository;
 import edu.cornell.cals.biomat.service.BioFormulaService;
 import edu.cornell.cals.biomat.service.BioVariableService;
 import edu.cornell.cals.biomat.util.ExpressionEvaluator;
@@ -26,6 +27,9 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 
 	@Autowired
 	BioVariableService bioVariableService;
+	
+	@Autowired
+	FormulaRepository formulaRepository;
 	
 	
 	public Map<String,List<Double>> getCalculatedDataPoints(Long formulaId, 
@@ -102,6 +106,11 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 	@Override
 	public List<BioFormula> getBioFormulaByVariableId(Integer variableId) {
 		return bioFormulaRepository.getBioFormulaByVaribleId(variableId);
+	}
+
+	@Override
+	public List<BioFormula> getBioFormulaByName(String name) {
+		return formulaRepository.getBioFormulaByName(name);
 	}
 	
 	

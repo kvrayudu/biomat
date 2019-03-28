@@ -13,4 +13,5 @@ public interface BioFormulaService {
 	BioFormula updateBioMaterialFormula(BioFormulaForm bioFormulaForm,String userId);
 	
 	public Map<String,List<Double>> getCalculatedDataPoints(Long formulaId, List<BioMaterialNutrientModel> bioMaterialNutrientModelList,Integer dependentVariableId, Integer minRange, Integer maxRange);
+	List<BioFormula> getBioFormulaByName(String q);
 }

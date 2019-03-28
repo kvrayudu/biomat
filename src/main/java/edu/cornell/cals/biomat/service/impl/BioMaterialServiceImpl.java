@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.repository.BioMaterialRepository;
 import edu.cornell.cals.biomat.service.BioMaterialService;

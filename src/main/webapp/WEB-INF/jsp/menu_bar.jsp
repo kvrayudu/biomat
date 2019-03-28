@@ -39,6 +39,7 @@
 						<li><a href="addPointInput">Add Data Point</a></li>
 						<li><a href="addBioMaterialFormula">Add Formula</a></li>
 						<li><a href="addBioMaterials">Add Range</a></li>
+						<li><li><a href="editFormula">Edit Bio Formula</a></li></li>
 				   </ul>
 				</li>
 				
