@@ -7,14 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class BioMaterialNutrientId implements Serializable{
+public class BioMaterialCompositionId implements Serializable{
 	private static final long serialVersionUID = 2302910861837400324L;
 
 	@Column(name = "material_id")
 	private Long materialId;
 	
-	@Column(name = "nutrient_id")
-	private Integer nutrientId;
+	@Column(name = "composition_id")
+	private Integer compositionId;
 	
 	public Long getMaterialId() {
 		return materialId;
@@ -22,27 +22,27 @@ public class BioMaterialNutrientId implements Serializable{
 	public void setMaterialId(Long materialId) {
 		this.materialId = materialId;
 	}
-	public Integer getNutrientId() {
-		return nutrientId;
+	public Integer getCompositionId() {
+		return compositionId;
 	}
 	public void setNutrientId(Integer nutrientId) {
-		this.nutrientId = nutrientId;
+		this.compositionId = nutrientId;
 	}
 	
 	 @Override
 	 public boolean equals(Object o) {
 	        if (this == o) return true;
-	        if (!(o instanceof BioMaterialNutrientId)) return false;
+	        if (!(o instanceof BioMaterialCompositionId)) return false;
 	        
-	        BioMaterialNutrientId that = (BioMaterialNutrientId) o;
+	        BioMaterialCompositionId that = (BioMaterialCompositionId) o;
 	        
 	        return  Objects.equals(getMaterialId(), that.getMaterialId()) &&
-	                Objects.equals(getNutrientId(), that.getNutrientId());
+	                Objects.equals(getCompositionId(), that.getCompositionId());
 	    }
 	 
 	    @Override
 	    public int hashCode() {
-	        return Objects.hash(getMaterialId(), getNutrientId());
+	        return Objects.hash(getMaterialId(), getCompositionId());
 	    }
  
 

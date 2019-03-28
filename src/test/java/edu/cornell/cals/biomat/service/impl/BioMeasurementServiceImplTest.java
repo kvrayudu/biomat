@@ -1,9 +1,5 @@
 package edu.cornell.cals.biomat.service.impl;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -12,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import edu.cornell.cals.biomat.dao.BioMeasurement;
 import edu.cornell.cals.biomat.service.BioMeasurementService;
 
 @RunWith(SpringRunner.class)

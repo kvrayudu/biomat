@@ -24,15 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.cornell.cals.biomat.dao.BioMaterial;
-import edu.cornell.cals.biomat.dao.BioMaterialNutrient;
-import edu.cornell.cals.biomat.dao.BioMeasurement;
-import edu.cornell.cals.biomat.model.material.BioMaterialNutrientForm;
+import edu.cornell.cals.biomat.dao.BioMaterialComposition;
+import edu.cornell.cals.biomat.model.material.BioMaterialCompositionForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchResultsForm;
 import edu.cornell.cals.biomat.model.material.BioObservedPointsForm;
-import edu.cornell.cals.biomat.repository.BioMeasurementRepository;
 import edu.cornell.cals.biomat.service.BioMatEmailService;
-import edu.cornell.cals.biomat.service.BioMaterialNutrientService;
+import edu.cornell.cals.biomat.service.BioMaterialCompositionService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
 
 @Controller
@@ -47,9 +45,9 @@ public class BioMaterialsController {
 	@Autowired
 	BioMatEmailService bioMatEmailService;
 	@Autowired
-	protected BioMaterialNutrientService bioMaterialNutrientService;
-	@Autowired
-	protected BioMeasurementRepository bioMeasurementRepository;
+	protected BioMaterialCompositionService bioMaterialCompositionService;
+	//@Autowired
+	//protected BioMeasurementRepository bioMeasurementRepository;
 
 	@GetMapping("bioObservedPoints")
 	public ModelAndView displayBioObservedPoints() {
@@ -59,7 +57,7 @@ public class BioMaterialsController {
 		ModelAndView  mv = new ModelAndView("materials/bioObservedPoints","bioObservedPointsForm",bioObservedPointsForm);
 		return mv;
 	}	
-	
+	/*
 	@PostMapping("bioObservedPoints")
 	public ModelAndView getBioObservedPoints(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
 		logger.info("getBioObservedPoints");
@@ -71,26 +69,26 @@ public class BioMaterialsController {
 		ModelAndView  mv = new ModelAndView("materials/bioObservedPoints","bioObservedPointsForm",bioObservedPointsForm);
 		return mv;
 	}	
-
+*/
 	
-	@PostMapping("bioMaterialNutrients")
+	@PostMapping("bioMaterialComposition")
 	public ModelAndView getBioMaterialNutrients(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
 		logger.info("getBioMaterialNutrients");
-		BioMaterialNutrientForm bioMaterialNutrientForm = new BioMaterialNutrientForm();
-		List<BioMaterialNutrient> bioMaterialNutrientList = bioMaterialNutrientService.getNutrients(materialId);
+		BioMaterialCompositionForm bioMaterialCompositionForm = new BioMaterialCompositionForm();
+		List<BioMaterialComposition> bioMaterialNutrientList = bioMaterialCompositionService.getComposition(materialId);
 		logger.info("Fetched bioMaterialNutrientList {} {}", bioMaterialNutrientList.size()  );
-		bioMaterialNutrientForm.setSelectedBioMaterialId(materialId);
-		bioMaterialNutrientForm.setBioMaterialNutrientList(bioMaterialNutrientList);
-		ModelAndView  mv = new ModelAndView("materials/bioMaterialNutrients","bioMaterialNutrientForm",bioMaterialNutrientForm);
+		bioMaterialCompositionForm.setSelectedBioMaterialId(materialId);
+		bioMaterialCompositionForm.setBioMaterialNutrientList(bioMaterialNutrientList);
+		ModelAndView  mv = new ModelAndView("materials/bioMaterialComposition","bioMaterialCompositionForm",bioMaterialCompositionForm);
 		return mv;
 	}	
 
 	
-	@GetMapping("bioMaterialNutrients")
+	@GetMapping("bioMaterialComposition")
 	public ModelAndView displayBioMaterialNutrientsPage() {
-		logger.info("displayBioMaterialNutrientsPage");
-		BioMaterialNutrientForm bioMaterialNutrientForm = new BioMaterialNutrientForm();
-		ModelAndView  mv = new ModelAndView("materials/bioMaterialNutrients","bioMaterialNutrientForm",bioMaterialNutrientForm);
+		logger.info("Display bioMaterialComposition");
+		BioMaterialCompositionForm bioMaterialCompositionForm = new BioMaterialCompositionForm();
+		ModelAndView  mv = new ModelAndView("materials/bioMaterialComposition","bioMaterialCompositionForm",bioMaterialCompositionForm);
 		return mv;
 	}	
 
@@ -150,9 +148,6 @@ public class BioMaterialsController {
 		}
 		else if(principal ==null) {
 			throw new RuntimeException("User is not authorized to update a material");
-		}
-		else if(bioMaterial.getUsdaId()!=null) {
-			throw new RuntimeException("USDA Material can't be updated");
 		}
 		else {
 			BioMaterial bm = bioMaterialService.updateBioMaterial(bioMaterial,principal.getName());

@@ -43,10 +43,10 @@ public class FormulaDataInitializer {
 			
 			bioFormula.setName(formula.getName());
 			bioFormula.setFormula(this.removeVariableMarkups(formula.getFormulaText()));
-			bioFormula.setLegacyFormula(formula.getFormulaText());
-			bioFormula.setLegacyValidMaterials(formula.getValidMaterials());
+			
+			
 			bioFormula.setVariableId(Integer.parseInt(formula.getFormulaVariable()+""));
-			bioFormula.setDependentVariableId(Integer.parseInt(formula.getDependentVariable()+""));
+			//bioFormula.setDependentVariableId(Integer.parseInt(formula.getDependentVariable()+""));
 			
 			if(formula.getDependentVariableLowRange()==null) 
 				bioFormula.setMinRange(0.0);
@@ -63,9 +63,9 @@ public class FormulaDataInitializer {
 			
 			bioFormula.setFormulaDesc(formula.getDescription());
 			bioFormula.setUpdatedBy("system");
-			bioFormula.setErrorReading(0.0);
 			
-			bioFormula.setrSq(0.0);
+			
+			
 			bioFormula.setIsApproved("0");
 			bioFormula.setAddedBy("system");
 			bioFormula.setApprovedBy("system");

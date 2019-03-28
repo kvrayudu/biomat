@@ -32,13 +32,10 @@ public class BioVariable implements Serializable{
 	private Integer id;
 	
 	private String name;
-	@Column(name="SIUnit")
-	private String siUnit;
 	private String description;
-	@NotNull
-	private Integer isFactor;
-	
 	private String symbol;
+	@Column(name="uom")
+	private String uom;
 
 	private String addedBy;
 	private String updatedBy;
@@ -54,16 +51,11 @@ public class BioVariable implements Serializable{
     @LastModifiedDate
     private Date updatedAt;
 
-    public String getNameAndVariableOrFactor() {
-    	String returnValue = name;
-    	if(isFactor == 1) {
-    		returnValue += " (Factor)";
-    	}
-    	else {
-    		returnValue += " (Variable)";
-    	}
-    	return returnValue;
-    }
+    
+    
+    
+    
+    
 	public Integer getId() {
 		return id;
 	}
@@ -80,28 +72,12 @@ public class BioVariable implements Serializable{
 		this.name = name;
 	}
 
-	public String getSiUnit() {
-		return siUnit;
-	}
-
-	public void setSiUnit(String siUnit) {
-		this.siUnit = siUnit;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	
-	public Integer getIsFactor() {
-		return isFactor;
-	}
-	
-	public void setIsFactor(Integer isFactor) {
-		this.isFactor = isFactor;
 	}
 
 	public String getSymbol() {
@@ -110,6 +86,14 @@ public class BioVariable implements Serializable{
 
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
+	}
+
+	public String getUom() {
+		return uom;
+	}
+
+	public void setUom(String uom) {
+		this.uom = uom;
 	}
 
 	public String getAddedBy() {
@@ -132,15 +116,16 @@ public class BioVariable implements Serializable{
 		return createdAt;
 	}
 
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	@Override
-	public String toString() {
-		return "BioVariable [id=" + id + ", name=" + name + ", siUnit=" + siUnit + ", description=" + description
-				+ ", isFactor=" + isFactor + ", symbol=" + symbol + ", addedBy=" + addedBy + ", updatedBy=" + updatedBy
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	@Override

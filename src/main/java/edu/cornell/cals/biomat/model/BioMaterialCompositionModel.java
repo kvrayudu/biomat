@@ -2,7 +2,7 @@ package edu.cornell.cals.biomat.model;
 
 import java.io.Serializable;
 
-public class BioMaterialNutrientModel implements Serializable{
+public class BioMaterialCompositionModel implements Serializable{
 	private static final long serialVersionUID = 7996998789667722805L;
 
 	private Long bioMaterialId;

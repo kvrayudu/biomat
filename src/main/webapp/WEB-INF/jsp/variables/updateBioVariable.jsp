@@ -35,30 +35,16 @@
 		   </div>
 		    
 		   <div class="form-group">
-		    	<form:label class="text-info col-sm-2" path = "siUnit">SI Unit</form:label>
+		    	<form:label class="text-info col-sm-2" path = "uom">UOM</form:label>
 			    <div class="col-sm-10"> 
-			      <form:input class="form-control" path = "siUnit"  value ="${bioVariable.siUnit}" />
+			      <form:input class="form-control" path = "uom"  value ="${bioVariable.uom}" />
 			    </div>
 		   </div>
 		   
 		   <div class="form-group">
-		    	<form:label class="text-info col-sm-2" path = "isFactor">Is Factor?</form:label>
-			    <div class="col-sm-10">
-			    <form:select class="form-control" id="isFactor" path="isFactor">
-			    	<c:choose>
-			    		<c:when test="${bioVariable.isFactor eq  1 }">
-				    		<option value="1" SELECTED>Yes</option>
-	    					<option value ="0">No</option>
-    					</c:when>
-			    		<c:otherwise>
-				    		<option value="1" >Yes</option>
-	    					<option value ="0" SELECTED>No</option>
-    					</c:otherwise>
-    					
-    				</c:choose>
-				 </form:select>
-			     
-			      
+		    	<form:label class="text-info col-sm-2" path = "symbol">Symbol</form:label>
+			    <div class="col-sm-10"> 
+			      <form:input class="form-control" path = "symbol"  value ="${bioVariable.symbol}" />
 			    </div>
 		   </div>
 		   

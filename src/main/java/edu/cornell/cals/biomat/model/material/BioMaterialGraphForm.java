@@ -6,7 +6,7 @@ import java.util.List;
 import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
-import edu.cornell.cals.biomat.model.BioMaterialNutrientModel;
+import edu.cornell.cals.biomat.model.BioMaterialCompositionModel;
 
 public class BioMaterialGraphForm implements Serializable{
 	private static final long serialVersionUID = 1143801111114953319L;
@@ -23,7 +23,7 @@ public class BioMaterialGraphForm implements Serializable{
 	private Integer minRange = 50;
 	private Integer maxRange = 100;
 	
-	private List<BioMaterialNutrientModel> bioMaterialNutrientModelList; 
+	private List<BioMaterialCompositionModel> bioMaterialCompositionModelList; 
 	
 	public BioMaterial getBioMaterial() {
 		return bioMaterial;
@@ -85,11 +85,11 @@ public class BioMaterialGraphForm implements Serializable{
 	public void setSelectedBioFormulaId(Integer selectedBioFormulaId) {
 		this.selectedBioFormulaId = selectedBioFormulaId;
 	}
-	public List<BioMaterialNutrientModel> getBioMaterialNutrientModelList() {
-		return bioMaterialNutrientModelList;
+	public List<BioMaterialCompositionModel> getBioMaterialCompositionModelList() {
+		return bioMaterialCompositionModelList;
 	}
-	public void setBioMaterialNutrientModelList(List<BioMaterialNutrientModel> bioMaterialNutrientModelList) {
-		this.bioMaterialNutrientModelList = bioMaterialNutrientModelList;
+	public void setBioMaterialCompositionModelList(List<BioMaterialCompositionModel> bioMaterialCompositionModelList) {
+		this.bioMaterialCompositionModelList = bioMaterialCompositionModelList;
 	}
 
 	
