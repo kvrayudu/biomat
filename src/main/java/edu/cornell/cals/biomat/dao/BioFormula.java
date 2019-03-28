@@ -37,18 +37,15 @@ public class BioFormula implements Serializable{
 	
 	private String name;
 	private String formula;
-	private String legacyFormula;
-	private String legacyValidMaterials;
 	
 	private Integer variableId;
-	private Integer dependentVariableId;
 	 
 	private Double minRange;
 	private Double maxRange;
 	
 	private String formulaDesc;
-	private Double errorReading;
-	private Double rSq;
+	
+
 	
 	private String citation;
 	private String doi;
@@ -73,19 +70,17 @@ public class BioFormula implements Serializable{
 	@JoinColumn(name = "variableId", nullable = false, insertable=false, updatable=false)
     @JsonIgnore
     private BioVariable bioVariable;
-
-	@OneToOne(fetch = FetchType.EAGER, optional = false)
-	@JoinColumn(name = "dependentVariableId", nullable = false, insertable=false, updatable=false)
-    @JsonIgnore
-    private BioVariable bioDependentVariable;
-
-	
 	
 	//Transiant
 	public String getFormulaAndName() {
-		return name + " - " + formula;
+		return name + " : " + formula;
 	}
 
+
+	//Transiant
+	public String getflatFormula() {
+		return name + " : " + formula;
+	}
 
 
 	public Long getId() {
@@ -124,27 +119,6 @@ public class BioFormula implements Serializable{
 
 
 
-	public String getLegacyFormula() {
-		return legacyFormula;
-	}
-
-
-
-	public void setLegacyFormula(String legacyFormula) {
-		this.legacyFormula = legacyFormula;
-	}
-
-
-
-	public String getLegacyValidMaterials() {
-		return legacyValidMaterials;
-	}
-
-
-
-	public void setLegacyValidMaterials(String legacyValidMaterials) {
-		this.legacyValidMaterials = legacyValidMaterials;
-	}
 
 
 
@@ -160,15 +134,6 @@ public class BioFormula implements Serializable{
 
 
 
-	public Integer getDependentVariableId() {
-		return dependentVariableId;
-	}
-
-
-
-	public void setDependentVariableId(Integer dependentVariableId) {
-		this.dependentVariableId = dependentVariableId;
-	}
 
 
 
@@ -207,28 +172,6 @@ public class BioFormula implements Serializable{
 	}
 
 
-
-	public Double getErrorReading() {
-		return errorReading;
-	}
-
-
-
-	public void setErrorReading(Double errorReading) {
-		this.errorReading = errorReading;
-	}
-
-
-
-	public Double getrSq() {
-		return rSq;
-	}
-
-
-
-	public void setrSq(Double rSq) {
-		this.rSq = rSq;
-	}
 
 
 
@@ -340,39 +283,10 @@ public class BioFormula implements Serializable{
 
 
 
-	public BioVariable getBioDependentVariable() {
-		return bioDependentVariable;
-	}
 
 
 
-	public void setBioDependentVariable(BioVariable bioDependentVariable) {
-		this.bioDependentVariable = bioDependentVariable;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "BioFormula [id=" + id + ", name=" + name + ", formula=" + formula + ", legacyFormula=" + legacyFormula
-				+ ", legacyValidMaterials=" + legacyValidMaterials + ", variableId=" + variableId
-				+ ", dependentVariableId=" + dependentVariableId + ", minRange=" + minRange + ", maxRange=" + maxRange
-				+ ", formulaDesc=" + formulaDesc + ", errorReading=" + errorReading + ", rSq=" + rSq + ", citation="
-				+ citation + ", doi=" + doi + ", isApproved=" + isApproved + ", addedBy=" + addedBy + ", updatedBy="
-				+ updatedBy + ", approvedBy=" + approvedBy + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", bioVariable=" + bioVariable + ", bioDependentVariable=" + bioDependentVariable
-				+ ", getFormulaAndName()=" + getFormulaAndName() + ", getId()=" + getId() + ", getName()=" + getName()
-				+ ", getFormula()=" + getFormula() + ", getLegacyFormula()=" + getLegacyFormula()
-				+ ", getLegacyValidMaterials()=" + getLegacyValidMaterials() + ", getVariableId()=" + getVariableId()
-				+ ", getDependentVariableId()=" + getDependentVariableId() + ", getMinRange()=" + getMinRange()
-				+ ", getMaxRange()=" + getMaxRange() + ", getFormulaDesc()=" + getFormulaDesc() + ", getErrorReading()="
-				+ getErrorReading() + ", getrSq()=" + getrSq() + ", getCitation()=" + getCitation() + ", getDoi()="
-				+ getDoi() + ", getIsApproved()=" + getIsApproved() + ", getAddedBy()=" + getAddedBy()
-				+ ", getUpdatedBy()=" + getUpdatedBy() + ", getApprovedBy()=" + getApprovedBy() + ", getCreatedAt()="
-				+ getCreatedAt() + ", getUpdatedAt()=" + getUpdatedAt() + ", getBioVariable()=" + getBioVariable()
-				+ ", getBioDependentVariable()=" + getBioDependentVariable() + ", getClass()=" + getClass()
-				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
-	}
+	
 
 
 }

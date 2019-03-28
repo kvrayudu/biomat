@@ -12,10 +12,10 @@
 <div class="container">
 	<div id="topbar"> <%@ include file = "./../top_bar.jsp" %></div>
 	<div id="menubar"> <%@ include file = "./../menu_bar.jsp" %></div>
-	<h2 class="text-info">Bio-Material Variable Values</h2>
+	<h2 class="text-info">Bio-Material Composition</h2>
 	
 	
-	<form:form  action="bioMaterialNutrients"  method="post"  modelAttribute ="bioMaterialNutrientForm" >
+	<form:form  action="bioMaterialComposition"  method="post"  modelAttribute ="bioMaterialCompositionForm" >
 	
 		<div class="form-group row">
 			<div class="col-sm-9">
@@ -23,41 +23,37 @@
 				<form:errors  class="text-danger"  path="selectedBioMaterialId" />
 			</div>
 			<div class="col-sm-1">
-				<button id="bio-material-nutrients" name="bio-material-nutrients" class="btn btn-info">Variable Values</button>
+				<button id="bio-material-nutrients" name="bio-material-nutrients" class="btn btn-info">Composition Values</button>
 			</div>
 		</div>
 		
-			<h4 class="text-info">Variable Values for Material: ${bioMaterialNutrientForm.bioMaterialNutrientList[0].bioMaterial.shortDesc } </h4>
+			<h4 class="text-info">Composition Values for Material: ${bioMaterialCompositionForm.bioMaterialCompositionList[0].bioMaterial.shortDesc } </h4>
 			<table class="table table-hover table-striped">
 			    <thead>
 			      <tr>
-			      	<th>Variable Id</th>
-			        <th>Variable  Name</th>
+			      	<th>Composition Id</th>
+			        <th>Composition  Name</th>
 			        <th>Symbol</th>
+			        <th>UOM</th>
 			        <th>Value</ths>
 			        <th>Min. Value</th>
 			        <th>max. Value</th>
 			      </tr>
 			    </thead>
 			    <tbody>
-					<c:forEach var="bioMaterialNutrient" items="${bioMaterialNutrientForm.bioMaterialNutrientList}">
+					<c:forEach var="bioMaterialComposition" items="${bioMaterialCompositionForm.bioMaterialCompositionList}">
 						<tr>
-        					<td>${bioMaterialNutrient.bioVariable.id}</td>
-        					<td>${bioMaterialNutrient.bioVariable.name}</td>
-        					<td>${bioMaterialNutrient.bioVariable.symbol}</td>
-        					<td>${bioMaterialNutrient.nutrientValue}</td>
-        					<td>${bioMaterialNutrient.minValue}</td>
-        					<td>${bioMaterialNutrient.maxValue}</td>
+        					<td>${bioMaterialComposition.bioComposition.id}</td>
+        					<td>${bioMaterialComposition.bioComposition.nutrientDesc}</td>
+        					<td>${bioMaterialComposition.bioComposition.tagName}</td>
+        					<td>${bioMaterialComposition.bioComposition.uom}</td>
+        					<td>${bioMaterialComposition.nutrientValue}</td>
+        					<td>${bioMaterialComposition.minValue}</td>
+        					<td>${bioMaterialComposition.maxValue}</td>
         				</tr>	
-							
 					</c:forEach>
 				</tbody>
-					
 			</table>	
-			
-		
-	
-	
 	</form:form>
 	
 	

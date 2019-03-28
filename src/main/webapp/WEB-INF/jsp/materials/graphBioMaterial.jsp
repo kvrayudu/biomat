@@ -56,6 +56,7 @@
 				<form:errors  class="text-danger"  path="selectedBioFormulaId" />
 			</div>
 		</div>
+
 		<div class="form-group row">
 			<div class="col-sm-1">
 				<form:label  class="text-info" path="selectedBioFormulaId" >X-Axis Range: </form:label>
@@ -84,7 +85,7 @@
 			<button id="add-material-composition" name="add-material-composition" class="btn btn-info">Add Material Composition</button>
 		</div>
 		<div class="col-sm-3">
-			<button id="graph-bio-material" name="graph-bio-material" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Chart Bio-Material Formula</button>
+			<button id="graph-bio-material" name="graph-bio-material" class="btn btn-info" data-toggle="modal" data-target="#graphModal">Chart Bio-Material Formula</button>
 		</div>
 		<div class="col-sm-3"></div>
 
@@ -92,7 +93,7 @@
 
 
 
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="graphModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		    <div class="modal-dialog modal-lg">
 		        <div class="modal-content">
 		            <div class="modal-header">
@@ -100,9 +101,10 @@
 		                <h4 class="modal-title" id="exampleModalLabel">Predicted Line</h4>
 		            </div>
 		            <div class="modal-body">
-		                
-		                <canvas id="popChart" width="850" height="400"></canvas>
-		                
+		                <div id="errorMessage" class="text-danger"></div>
+		                <div id="chartLocation">
+		                	<canvas id="popChart" width="850" height="400"></canvas>
+		                </div>
 		            </div>
 		            <div class="modal-footer">
 		                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

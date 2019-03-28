@@ -6,16 +6,16 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import edu.cornell.cals.biomat.dao.BioMaterialNutrient;
+import edu.cornell.cals.biomat.dao.BioMaterialComposition;
 
-public class BioMaterialNutrientForm implements Serializable{
+public class BioMaterialCompositionForm implements Serializable{
 	private static final long serialVersionUID = -5114043930431101518L;
 	@NotNull
 	@Size(min=2, max=300)
 	private String materialName;
 	private Long selectedBioMaterialId;
 	
-	private List<BioMaterialNutrient> bioMaterialNutrientList;
+	private List<BioMaterialComposition> bioMaterialCompositionList;
 	
 	public String getMaterialName() {
 		return materialName;
@@ -29,23 +29,11 @@ public class BioMaterialNutrientForm implements Serializable{
 	public void setSelectedBioMaterialId(Long selectedBioMaterialId) {
 		this.selectedBioMaterialId = selectedBioMaterialId;
 	}
-	public List<BioMaterialNutrient> getBioMaterialNutrientList() {
-		return bioMaterialNutrientList;
+	public List<BioMaterialComposition> getBioMaterialCompositionList() {
+		return bioMaterialCompositionList;
 	}
-	public void setBioMaterialNutrientList(List<BioMaterialNutrient> bioMaterialNutrientList) {
-		this.bioMaterialNutrientList = bioMaterialNutrientList;
-	}
-	@Override
-	public String toString() {
-		return "BioMaterialNutrientForm [materialName=" + materialName + ", selectedBioMaterialId="
-				+ selectedBioMaterialId + ", bioMaterialNutrientList=" + bioMaterialNutrientList + "]";
+	public void setBioMaterialNutrientList(List<BioMaterialComposition> bioMaterialCompositionList) {
+		this.bioMaterialCompositionList = bioMaterialCompositionList;
 	}
 	
-	
-	
-	
-	
-	
-	
-
 }

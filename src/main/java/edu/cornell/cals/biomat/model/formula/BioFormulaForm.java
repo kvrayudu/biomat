@@ -8,6 +8,8 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import edu.cornell.cals.biomat.dao.BioVariable;
+
 public class BioFormulaForm implements  Serializable{
 	private static final long serialVersionUID = -3674920855102623820L;
 	
@@ -18,11 +20,11 @@ public class BioFormulaForm implements  Serializable{
 	@NotEmpty
 	private String formula;
 	@NotNull
-	@DecimalMin(value = "0.1", inclusive = true)
+	@DecimalMin(value = "-9999.9", inclusive = true)
 	@DecimalMax(value = "9999.9", inclusive = true)
 	private Double minRange;
 	@NotNull
-	@DecimalMin(value = "0.1", inclusive = true)
+	@DecimalMin(value = "-9999.9", inclusive = true)
 	@DecimalMax(value = "9999.9", inclusive = true)
 	private Double maxRange;
 	@NotNull
@@ -31,8 +33,16 @@ public class BioFormulaForm implements  Serializable{
 	@NotNull
 	@NotEmpty
 	private String doi;
+
+	@NotNull
+	@NotEmpty
+	private String formulaDesc;
 	
-	private List<String> variables;
+	private Integer variableId;
+	
+	List<BioVariable> bioVariables;
+	
+	
 	private boolean validated;
 	
 	public boolean isValidated() {
@@ -41,12 +51,7 @@ public class BioFormulaForm implements  Serializable{
 	public void setValidated(boolean validated) {
 		this.validated = validated;
 	}
-	public List<String> getVariables() {
-		return variables;
-	}
-	public void setVariables(List<String> variables) {
-		this.variables = variables;
-	}
+
 	public String getName() {
 		return name;
 	}
@@ -83,12 +88,26 @@ public class BioFormulaForm implements  Serializable{
 	public void setDoi(String doi) {
 		this.doi = doi;
 	}
-	@Override
-	public String toString() {
-		return "BioFormulaForm [name=" + name + ", formula=" + formula + ", minRange=" + minRange + ", maxRange="
-				+ maxRange + ", citation=" + citation + ", doi=" + doi + ", variables=" + variables + ", validated="
-				+ validated + "]";
+	public Integer getVariableId() {
+		return variableId;
 	}
+	public void setVariableId(Integer variableId) {
+		this.variableId = variableId;
+	}
+	public List<BioVariable> getBioVariables() {
+		return bioVariables;
+	}
+	public void setBioVariables(List<BioVariable> bioVariables) {
+		this.bioVariables = bioVariables;
+	}
+	public String getFormulaDesc() {
+		return formulaDesc;
+	}
+	public void setFormulaDesc(String formulaDesc) {
+		this.formulaDesc = formulaDesc;
+	}
+	
+	
 
 	
 	

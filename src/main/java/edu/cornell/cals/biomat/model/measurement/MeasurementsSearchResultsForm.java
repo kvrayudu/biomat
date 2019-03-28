@@ -1,13 +1,10 @@
 package edu.cornell.cals.biomat.model.measurement;
 
 import java.io.Serializable;
-import java.util.List;
-
-import edu.cornell.cals.biomat.dao.BioMeasurement;
 
 public class MeasurementsSearchResultsForm implements  Serializable{
 	private static final long serialVersionUID = -2574959934691630627L;
-
+/*
 	protected List<BioMeasurement> bioMeasurements;
 	private int currentPage;
 	private int lastPage;
@@ -54,6 +51,6 @@ public class MeasurementsSearchResultsForm implements  Serializable{
 		return "MeasurementsSearchResultsForm [bioMeasurements=" + bioMeasurements + ", currentPage=" + currentPage
 				+ ", lastPage=" + lastPage + ", pagerStart=" + pagerStart + ", pagerEnd=" + pagerEnd + "]";
 	}
-	
+	*/
 	
 }

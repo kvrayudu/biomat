@@ -17,7 +17,7 @@ public class MeasurementsDataInitializerTest {
 	MeasurementsDataInitializer measurementsDataInitializer;
 	@Test
 	public void populate() {
-		measurementsDataInitializer.populate();
+		//measurementsDataInitializer.populate();
 		
 	}
 	

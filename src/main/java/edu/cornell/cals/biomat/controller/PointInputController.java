@@ -1,37 +1,20 @@
 package edu.cornell.cals.biomat.controller;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.cornell.cals.biomat.dao.BioMeasurement;
 import edu.cornell.cals.biomat.model.measurement.BioMeasurementForm;
 import edu.cornell.cals.biomat.model.measurement.MeasurementPair;
-import edu.cornell.cals.biomat.model.measurement.MeasurementsSearchResultsForm;
 import edu.cornell.cals.biomat.service.BioMatEmailService;
-import edu.cornell.cals.biomat.service.BioMeasurementService;
 
 @Controller
 public class PointInputController {
@@ -40,8 +23,8 @@ public class PointInputController {
 	private static final int PAGER_ELEMENTS = 15;
 
 	
-	@Autowired
-	BioMeasurementService bioMeasurementService;
+	//@Autowired
+	//BioMeasurementService bioMeasurementService;
 	
 	@Autowired
 	BioMatEmailService bioMatEmailService;
@@ -57,7 +40,7 @@ public class PointInputController {
 		ModelAndView  mv = new ModelAndView("contribute/addPointInput","bioMeasurementForm",BMF);
 		return mv;
 	}
-	
+	/*
 	@PostMapping("addPointInput")
 	public ModelAndView addBioMeasurement(HttpServletRequest request, @RequestParam("inputpicker-1") String materialName, @Valid @ModelAttribute BioMeasurementForm bioMeasurementForm,BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
 		logger.info("Start {} {}" ,materialName, bioMeasurementForm);
@@ -85,8 +68,9 @@ public class PointInputController {
 		
 		return mv;
 	}
-
+*/
 	//@PostMapping("/myPointInputs")
+	/*
 	@RequestMapping(value = "myPointInputs", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView displayMyPointInputPage(@AuthenticationPrincipal Principal principal,@RequestParam(value="pageNumber", required=false, defaultValue = "0") Integer pageNumber) {
 		logger.info("Start" );
@@ -132,7 +116,7 @@ public class PointInputController {
 		ModelAndView  mv = new ModelAndView("contribute/myPointInputs","measurementsSearchResultsForm",measurementsSearchResultsForm);
 		return mv;
 	}
-
+*/
 	/*
 	 * 
 		List<BioMaterial> bmList = new ArrayList<BioMaterial>();

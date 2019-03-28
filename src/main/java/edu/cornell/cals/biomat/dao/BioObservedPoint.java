@@ -23,11 +23,11 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name="bio_measurement")
+//@Entity
+//@Table(name="bio_observed_point")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 @EntityListeners(AuditingEntityListener.class)
-public class BioMeasurement implements Serializable{
+public class BioObservedPoint implements Serializable{
 
 	private static final long serialVersionUID = 5987829938980111480L;
 	

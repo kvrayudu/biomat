@@ -3,6 +3,7 @@ package edu.cornell.cals.biomat.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -59,7 +60,11 @@ public class BioMaterialServiceImpl implements BioMaterialService{
 	
 	@Override
     public List<BioMaterial> getBioMaterialWithFormula(String shortDesc){
-		return bioMaterialRepository.getBioMaterialWithFormula("%"+shortDesc+"%");
+		//List<BioMaterial> bioMaterialsWithFormula = bioMaterialRepository.getBioMaterialWithFormula("%"+shortDesc+"%");
+		//return bioMaterialsWithFormula ;
+		List<BioMaterial> bioMaterialsWithFormula = bioMaterialRepository.getBioMaterial("%"+shortDesc+"%");
+		// Filter All Material with Id 0 
+		return bioMaterialsWithFormula.stream().filter(bm->bm.getId()!=0).collect(Collectors.toList());
 	}
 
 }

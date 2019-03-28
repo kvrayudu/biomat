@@ -2,21 +2,16 @@
 <!-- NAV Start -->  
 <nav>
    <ul class="nav nav-tabs" role="tablist">
-	<li><a href="home">Home</a></li>
+	<!-- <li><a href="home">Home</a></li> -->
 	
 	<li><li><a href="searchBioMaterials">Bio-Materials</a></li></li>
-	<li><li><a href="bioMaterialNutrients">Bio-Material Nutrients</a></li></li>
-	<li><li><a href="bioObservedPoints">Observed Points</a></li></li>
+	<li><li><a href="bioMaterialComposition">Bio-Material Composition</a></li></li>
+	<li><li><a href="searchBioFormula">Bo-Formula</a></li></li>
+	<li><li><a href="searchBioVariables">Bio-Variables</a></li></li>
+		
 	<li><li><a href="graphBioMaterial">Chart Formula</a></li></li>
 	
-    <li class="dropdown">
-		<a class="dropdown-toggle" data-toggle="dropdown">Bio-Variables<span class="caret"></span></a>
-		<ul class="dropdown-menu" role="menu">
-			<li><a href="searchBioVariables">Search Bio-Variables</a></li>
-			<li><a href="addBioVariables">Add Bio-Variable</a></li>
-	   </ul>
-	</li>
-	
+	<li><li><a href="bioObservedPoints">Observed Points</a></li></li>
 
 	
 	<c:choose>
@@ -35,9 +30,9 @@
 			    <li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown">Contribute Data<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
+						<li><a href="addBioFormula">Add Formula</a></li>
 						<li><a href="addBioMaterial">Add Bio-Material</a></li>
 						<li><a href="addPointInput">Add Data Point</a></li>
-						<li><a href="addBioMaterialFormula">Add Formula</a></li>
 						<li><a href="addBioMaterials">Add Range</a></li>
 						<li><li><a href="editFormula">Edit Bio Formula</a></li></li>
 				   </ul>
