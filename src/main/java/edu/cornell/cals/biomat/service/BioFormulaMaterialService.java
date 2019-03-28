@@ -5,19 +5,20 @@ import java.util.List;
 import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioFormulaMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
+import edu.cornell.cals.biomat.model.BioVariableAndCompostionModel;
 
 public interface BioFormulaMaterialService {
 	BioFormulaMaterial getBioFormulaMaterial(Long id);
 	List<BioFormulaMaterial> getBioFormulaMaterialByMaterialId(Long materialId);
-	
-	
-	public List<BioVariable> getBioVariables(Long materialId);
+
+	List<BioVariable> getBioVariables(Long materialId);
 	List<BioVariable> getBioVariables(List<BioFormulaMaterial>  bfmList);
 
-	public List<BioVariable> getBioDependentVariables(Long materialId, Integer variableID);
-	public List<BioVariable> getBioDependentVariables(List<BioFormulaMaterial>  bfmList,Integer variableID);
 
-	public List<BioFormula> getBioFormula(Long materialId, Integer variableID, Integer dependentVariableID);
-	public List<BioFormula> getBioFormula(List<BioFormulaMaterial>  bfmList, Integer variableID, Integer dependentVariableID);
+	List<BioFormula> getBioFormula(Long materialId, Integer variableID, Integer dependentVariableID);
+	List<BioFormula> getBioFormula(List<BioFormulaMaterial>  bfmList, Integer variableID, Integer dependentVariableID);
+
+	
+	BioVariableAndCompostionModel getVariablesInFormula(Long materialId, int variableId);
 	
 }

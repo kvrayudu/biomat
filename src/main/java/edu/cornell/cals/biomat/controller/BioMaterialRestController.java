@@ -20,11 +20,12 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
-import edu.cornell.cals.biomat.model.BioMaterialNutrientModel;
+import edu.cornell.cals.biomat.model.BioMaterialCompositionModel;
+import edu.cornell.cals.biomat.model.BioVariableAndCompostionModel;
 import edu.cornell.cals.biomat.model.material.BioMaterialGraphForm;
 import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
 import edu.cornell.cals.biomat.service.BioFormulaService;
-import edu.cornell.cals.biomat.service.BioMaterialNutrientService;
+import edu.cornell.cals.biomat.service.BioMaterialCompositionService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
 import edu.cornell.cals.biomat.service.BioVariableService;
 
@@ -36,7 +37,7 @@ public class BioMaterialRestController {
 	protected BioMaterialService bioMaterialService;
 
 	@Autowired
-	protected BioMaterialNutrientService bioMaterialNutrientService;
+	protected BioMaterialCompositionService bioMaterialCompositionService;
 
 	@Autowired
 	protected BioVariableService bioVariableService;
@@ -53,39 +54,50 @@ public class BioMaterialRestController {
 	public ResponseEntity<String>  getCalculatedDataPoints(@ModelAttribute BioMaterialGraphForm bioMaterialGraphForm) throws Exception {
 		logger.info("getCalculatedDataPoints() {} {} {} ", bioMaterialGraphForm);
 		
-		
-		Map<String,List<Double>> resultMap = bioFormulaService.getCalculatedDataPoints(
-				bioMaterialGraphForm.getSelectedBioFormulaId().longValue(),
-				bioMaterialGraphForm.getBioMaterialNutrientModelList(),
-				bioMaterialGraphForm.getSelectedDependentBioVariableId(),
-				bioMaterialGraphForm.getMinRange(),bioMaterialGraphForm.getMaxRange());
-		
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		String jsonVariablesArray = mapper.writeValueAsString(resultMap );
-		String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
-		logger.info("Returning dataPointList{} {}  ", resultMap,s);
-		return ResponseEntity.ok(s);
-		
-
-		
+		try {
+			Map<String,List<Double>> resultMap = bioFormulaService.getCalculatedDataPoints(
+					bioMaterialGraphForm.getSelectedBioFormulaId().longValue(),
+					bioMaterialGraphForm.getBioMaterialCompositionModelList(),
+					bioMaterialGraphForm.getSelectedDependentBioVariableId(),
+					bioMaterialGraphForm.getMinRange(),bioMaterialGraphForm.getMaxRange());
+			
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+			String jsonVariablesArray = mapper.writeValueAsString(resultMap );
+			String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
+			logger.info("Returning dataPointList{} {}  ", resultMap,s);
+			return ResponseEntity.ok(s);
+		}
+		catch(ArithmeticException ae) {
+			String s="{\"msg\":\"Threse is an error in calculation. Specific Message "+ae.getMessage()+ "\"}";
+			logger.info("Returning dataPointList{} ", s);
+			return ResponseEntity.ok(s);
+		}
 	}
 
 	
 
-	@GetMapping("getBioMatrialNutrients")
-	public ResponseEntity<String>  getBioMatrialNutrients(
+	@GetMapping("getBioMaterialCompositionForFormula")
+	public ResponseEntity<String>  getBioMaterialCompositionForFormula(
 			@RequestParam(value="materialId", required=false) String materialId,
-			@RequestParam(value="formulaId", required=false) String formulaId) throws Exception {
-		logger.info("getBioMatrialNutrients) {} {}", materialId,formulaId);
+			@RequestParam(value="formulaId", required=false) String formulaId,
+			@RequestParam(value="dependentVariableId", required=false) String dependentVariableId
+			) throws Exception {
+		logger.info("getBioMaterialCompositionForFormula) {} {}", materialId,formulaId);
 		
-		List<BioMaterialNutrientModel> bmnmList = bioMaterialNutrientService.getBioMaterialNutrientsForFormula(
+		List<BioMaterialCompositionModel> bmnmList = bioMaterialCompositionService.getBioMaterialCompositionForFormula(
 				Long.parseLong(materialId), 
 				bioFormulaService.getBioMaterialFormula(Long.parseLong(formulaId)));
-		bmnmList.forEach(System.out::println);
+		// Remove dependent variable from the composition. We will not ask user to enter a value
+		List<BioMaterialCompositionModel> newList = new ArrayList(); 
+		for(BioMaterialCompositionModel model : bmnmList) {
+			if(model.getBioNutrientId().intValue()!=Integer.parseInt(dependentVariableId)) {
+				newList.add(model);
+			}
+		}
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		String jsonVariablesArray = mapper.writeValueAsString(bmnmList);
+		String jsonVariablesArray = mapper.writeValueAsString(newList);
 		String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
 		logger.info("Returning getBioMatrialNutrients{} {} {} {}  ",s);
 		return ResponseEntity.ok(s);
@@ -109,16 +121,15 @@ public class BioMaterialRestController {
 	}
 
 	
-	@GetMapping("getDependentVariablesForBiMaterial")
-	public ResponseEntity<String>  getDependentVariablesForBiMaterial(@RequestParam(value="materialId", required=false) String materialId,@RequestParam(value="variableId", required=false) String variableId) throws Exception {
-		logger.info("getDependentVariablesForBiMaterial() {} {}  ", materialId,  variableId);
-		List<BioVariable> bvList = bioFormulaMaterialService.getBioDependentVariables(Long.parseLong(materialId), Integer.parseInt(variableId));
+	@GetMapping("getVariablesInFormula")
+	public ResponseEntity<String>  getVariablesInFormula(@RequestParam(value="materialId", required=false) String materialId,@RequestParam(value="variableId", required=false) String variableId) throws Exception {
+		logger.info("getVariablesInFormula() {} {}  ", materialId,  variableId);
+		BioVariableAndCompostionModel bioVariableAndCompostionModel= bioFormulaMaterialService.getVariablesInFormula(Long.parseLong(materialId), Integer.parseInt(variableId));
 		ObjectMapper mapper = new ObjectMapper();
-		String jsonVariablesArray = mapper.writeValueAsString(bvList);
+		String jsonVariablesArray = mapper.writeValueAsString(bioVariableAndCompostionModel);
 		String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
-		logger.info("Returning dependent Variable for MaterialId and variableId {} {} {}  ", materialId,variableId,s);
+		logger.info("Returning Composition and Variables for MaterialId and variableId {} {} {}  ", materialId,variableId,s);
 		return ResponseEntity.ok(s);
-		
 	}
 
 	
@@ -155,7 +166,8 @@ public class BioMaterialRestController {
 	public ResponseEntity<String>  searchBioMaterialsWithFormula(@RequestParam(value="q", required=false) String q) throws Exception {
 		logger.info("Start searchBioMaterialsWithFormula {} " + q);
 		List<BioMaterial>bioMaterials = new ArrayList<BioMaterial>();
-		bioMaterials =bioMaterialService.getBioMaterialWithFormula(q);
+		if(q.length()>3)
+			bioMaterials =bioMaterialService.getBioMaterialWithFormula(q);
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonMaterialArray = mapper.writeValueAsString(bioMaterials);
 		

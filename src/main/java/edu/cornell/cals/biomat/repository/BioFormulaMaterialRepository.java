@@ -13,7 +13,7 @@ import edu.cornell.cals.biomat.dao.BioFormulaMaterial;
 @Repository
 public interface BioFormulaMaterialRepository extends JpaRepository<BioFormulaMaterial, Long> {
 	
-	@Query(value="SELECT bfm FROM BioFormulaMaterial bfm where bfm.materialId = :materialId")
+	@Query(value="SELECT bfm FROM BioFormulaMaterial bfm where bfm.materialId = 0 OR bfm.materialId = :materialId")
     List<BioFormulaMaterial> getBioFormulaMaterialByMaterialId(@Param("materialId") Long materialId);
 	
 }

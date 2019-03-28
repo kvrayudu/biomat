@@ -1,12 +1,9 @@
 package edu.cornell.cals.biomat.model.material;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import edu.cornell.cals.biomat.dao.BioMeasurement;
 
 public class BioObservedPointsForm implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -16,7 +13,7 @@ public class BioObservedPointsForm implements Serializable{
 	@Size(min=2, max=300)
 	private String materialName;
 	private Long selectedBioMaterialId;
-	
+	/*
 	private List<BioMeasurement> bioMeasurementList;
 
 	public String getMaterialName() {
@@ -42,5 +39,5 @@ public class BioObservedPointsForm implements Serializable{
 	public void setBioMeasurementList(List<BioMeasurement> bioMeasurementList) {
 		this.bioMeasurementList = bioMeasurementList;
 	}
-
+*/
 }

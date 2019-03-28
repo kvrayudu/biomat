@@ -67,16 +67,25 @@ $(document).ready(function () {
 	    
 	    
 		
-		$.get("getDependentVariablesForBiMaterial?materialId="+materialId + "&variableId=" +variableId, function( response ) {
+		$.get("getVariablesInFormula?materialId="+materialId + "&variableId=" +variableId, function( response ) {
 			$('#selectedDependentBioVariableId').empty()
+			
 				var jsonValue = JSON.parse(response);
+				console.log( jsonValue);
 				var variableOptionsString="";
-				for( var i=0;i<jsonValue.data.length;i++){
-					variableOptionsString += "<OPTION value = "+jsonValue.data[i].id+">"+jsonValue.data[i].name+"</OPTION>";
-					var o = new Option( jsonValue.data[i].name,jsonValue.data[i].id);
-					$(o).html(jsonValue.data[i].name);
+				for( var i=0;i<jsonValue.data.bioVariables.length;i++){
+					variableOptionsString += "<OPTION value = "+jsonValue.data.bioVariables[i].id+">"+jsonValue.data.bioVariables[i].name+"</OPTION>";
+					var o = new Option( jsonValue.data.bioVariables[i].name,jsonValue.data.bioVariables[i].id);
+					$(o).html(jsonValue.data.bioVariables[i].name);
 					$("#selectedDependentBioVariableId").append(o);	
 				}
+				for( var i=0;i<jsonValue.data.bioComposition.length;i++){
+					variableOptionsString += "<OPTION value = "+jsonValue.data.bioComposition[i].id+">"+jsonValue.data.bioComposition[i].tagName+"</OPTION>";
+					var o = new Option( jsonValue.data.bioComposition[i].tagName,jsonValue.data.bioComposition[i].id);
+					$(o).html(jsonValue.data.bioComposition[i].tagName);
+					$("#selectedDependentBioVariableId").append(o);	
+				}
+
 				console.log( variableOptionsString );
 		})
 	    
@@ -146,8 +155,9 @@ $(document).ready(function () {
 	$("#add-material-composition" ).on( "click", function() {
 		var materialId = $("#selectedBioMaterialId").val();
 		var formulaId = $("#selectedBioFormulaId").val();
+		var dependentVariableId = $("#selectedDependentBioVariableId").val();
 		jQuery('#materialComposition').empty();
-		$.get("getBioMatrialNutrients?materialId="+materialId +"&formulaId="+formulaId, function( response ) {
+		$.get("getBioMaterialCompositionForFormula?materialId="+materialId +"&formulaId="+formulaId +"&dependentVariableId="+dependentVariableId, function( response ) {
 			
 			var jsonValue = JSON.parse(response);
 			
@@ -170,19 +180,19 @@ $(document).ready(function () {
 				for( var i=0;i<jsonValue.data.length;i++){
 					//inptString+=jsonValue.data[i].nutrientName + "&nbsp;&nbsp;" +jsonValue.data[i].nutrientValue
 					inptString+="<div class='form-group row'>\n" + 
-					"			<input  type='hidden'   value = '" + jsonValue.data[i].bioMaterialId	+"' 	id='bioMaterialNutrientModelList["+i+"].bioMaterialId' name='bioMaterialNutrientModelList["+i+"].bioMaterialId'/>\n" + 
-					"			<input type='hidden'  value = '" + jsonValue.data[i].bioNutrientId 	+"' 	id='bioMaterialNutrientModelList["+i+"].bioNutrientId' name='bioMaterialNutrientModelList["+i+"].bioNutrientId'/>			\n" + 
-					"			<input  type='hidden'  value = '" + jsonValue.data[i].nutrientName	+"' 	id='bioMaterialNutrientModelList["+i+"].nutrientName' name='bioMaterialNutrientModelList["+i+"].nutrientName'/>			\n" + 
-					"			<input  type='hidden' value = '" + jsonValue.data[i].nutrientUnit	+"' 	id='bioMaterialNutrientModelList["+i+"].nutrientUnit' name='bioMaterialNutrientModelList["+i+"].nutrientUnit'/>			\n" + 
-					"			<input  type='hidden' value = '" + jsonValue.data[i].nutrientValue	+"' 	id='bioMaterialNutrientModelList["+i+"].nutrientValue' name='bioMaterialNutrientModelList["+i+"].nutrientValue'/>			\n" +
-					"			<input  type='hidden' value = '" + jsonValue.data[i].nutrientSymbol	+"' 	id='bioMaterialNutrientModelList["+i+"].nutrientSymbol' name='bioMaterialNutrientModelList["+i+"].nutrientSymbol'/>			\n" + 
+					"			<input  type='hidden'   value = '" + jsonValue.data[i].bioMaterialId	+"' 	id='bioMaterialCompositionModelList["+i+"].bioMaterialId' name='bioMaterialNutrientModelList["+i+"].bioMaterialId'/>\n" + 
+					"			<input type='hidden'  value = '" + jsonValue.data[i].bioNutrientId 	+"' 	id='bioMaterialCompositionModelList["+i+"].bioNutrientId' name='bioMaterialCompositionModelList["+i+"].bioNutrientId'/>			\n" + 
+					"			<input  type='hidden'  value = '" + jsonValue.data[i].nutrientName	+"' 	id='bioMaterialCompositionModelList["+i+"].nutrientName' name='bioMaterialCompositionModelList["+i+"].nutrientName'/>			\n" + 
+					"			<input  type='hidden' value = '" + jsonValue.data[i].nutrientUnit	+"' 	id='bioMaterialCompositionModelList["+i+"].nutrientUnit' name='bioMaterialCompositionModelList["+i+"].nutrientUnit'/>			\n" + 
+					"			<input  type='hidden' value = '" + jsonValue.data[i].nutrientValue	+"' 	id='bioMaterialCompositionModelList["+i+"].nutrientValue' name='bioMaterialCompositionModelList["+i+"].nutrientValue'/>			\n" +
+					"			<input  type='hidden' value = '" + jsonValue.data[i].nutrientSymbol	+"' 	id='bioMaterialCompositionModelList["+i+"].nutrientSymbol' name='bioMaterialCompositionModelList["+i+"].nutrientSymbol'/>			\n" + 
 					"\n" + 
 					"			<div class='col-sm-1'>&nbsp;</div>\n" + 
 					"			<div class='col-sm-2 text-info'>"+jsonValue.data[i].nutrientName+"</div>  \n" + 
 					"			<div class='col-sm-2 text-info'>"+jsonValue.data[i].nutrientUnit+"</div>\n" + 
 					"			<div class='col-sm-2 text-info'>"+jsonValue.data[i].nutrientValue+"</div>\n" + 
 					"			<div class='col-sm-2'>\n" + 
-					"				<input class='form-control' id='bioMaterialNutrientModelList["+i+"].userValue' name='bioMaterialNutrientModelList["+i+"].userValue' value ="+jsonValue.data[i].nutrientValue+"  />\n" + 
+					"				<input class='form-control' id='bioMaterialCompositionModelList["+i+"].userValue' name='bioMaterialCompositionModelList["+i+"].userValue' value ="+jsonValue.data[i].nutrientValue+"  />\n" + 
 					"			</div>\n" + 
 					"			\n" + 
 					"		</div>";
@@ -199,21 +209,58 @@ $(document).ready(function () {
 	});
 	
 	$("#graph-bio-material" ).on( "click", function() {
-	//$('#exampleModal').on('shown.bs.modal',function() {
 		var formData = $("#graphForm").serialize();
 		var labelText = $("#selectedBioFormulaId").text()
 		var dependentVariableId = $("#selectedDependentBioVariableId").val();
-		//alert(dependentVariableId);
-	//	alert(labelText )
+
 		console.log( formData );
 		$.post("getCalculatedDataPoints", formData,function( response ){
 			var jsonValue = JSON.parse(response);
+			
+			if(jsonValue.msg.length > 5){
+				$( "#errorMessage" ).text(jsonValue.msg);
+				
+				var dataArrayEmpty;
+				var popCanvas = $("#popChart");
+				var popCanvas = document.getElementById("popChart");
+				var popCanvas = document.getElementById("popChart").getContext("2d");
+				var barChart = new Chart(popCanvas, {
+					  type: 'line',
+					  data: {
+					    labels: xAxisLabelsArray,
+					    datasets: [{
+					      label: labelText,
+					      data: dataArrayEmpty,
+					      backgroundColor: [
+					        'rgba(255, 99, 132, 0.6)',
+					        'rgba(54, 162, 235, 0.6)',
+					        'rgba(255, 206, 86, 0.6)',
+					        'rgba(75, 192, 192, 0.6)',
+					        'rgba(153, 102, 255, 0.6)',
+					        'rgba(255, 159, 64, 0.6)',
+					        'rgba(255, 99, 132, 0.6)',
+					        'rgba(54, 162, 235, 0.6)',
+					        'rgba(255, 206, 86, 0.6)',
+					        'rgba(153, 102, 255, 0.6)'
+					      ]
+					    }]
+					  },
+					  options: {
+			                responsive: false
+			            }
+					}); //END var barChart
+
+				
+				
+				return;
+			}
+			
 			var dataArray=jsonValue.data.dataPointsY;
 			console.log( response );
 			console.log( "DataArrayY " + dataArray );
 			var xAxisLabelsArray		= jsonValue.data.dataPointsX;
 			console.log( "DataArrayX " + xAxisLabelsArray );
-			
+			$( "#errorMessage" ).text("");
 			var popCanvas = $("#popChart");
 			var popCanvas = document.getElementById("popChart");
 			var popCanvas = document.getElementById("popChart").getContext("2d");

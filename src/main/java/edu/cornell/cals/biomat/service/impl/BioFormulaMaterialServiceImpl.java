@@ -4,20 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.cornell.cals.biomat.dao.BioComposition;
 import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioFormulaMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
+import edu.cornell.cals.biomat.model.BioVariableAndCompostionModel;
+import edu.cornell.cals.biomat.repository.BioCompositionRepository;
 import edu.cornell.cals.biomat.repository.BioFormulaMaterialRepository;
+import edu.cornell.cals.biomat.repository.BioVariableRepository;
 import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
+import edu.cornell.cals.biomat.service.BioFormulaService;
+import edu.cornell.cals.biomat.util.ExpressionEvaluator;
 
 @Service
 public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 
 	@Autowired
 	BioFormulaMaterialRepository bioFormulaMaterialRepository;
+	@Autowired
+	BioFormulaService bioFormulaService;
+	@Autowired
+	BioCompositionRepository bioCompositionRepository;
+	@Autowired
+	BioVariableRepository bioVariableRepository;
 
 	@Override
 	public BioFormulaMaterial getBioFormulaMaterial(Long id) {
@@ -44,6 +58,39 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 		return bvList;
 	}
 	
+	public BioVariableAndCompostionModel getVariablesInFormula(Long materialId, int variableId){
+		List<BioFormula> bioFormulaList = new ArrayList<BioFormula>();
+		List<BioFormulaMaterial>  bfmList = bioFormulaMaterialRepository.getBioFormulaMaterialByMaterialId(materialId);
+		List<String> variables = new ArrayList<String>();
+		
+		/*
+		bfmList.stream()
+				.filter(bfm->bfm.getBioFormula().getBioVariable().getId().intValue()!=variableId)
+				.map(bfm->bioFormulaList.add(bfm.getBioFormula()));
+		 */
+		for(BioFormulaMaterial bfm : bfmList) {
+			if(bfm.getBioFormula().getBioVariable().getId().intValue()==variableId) {
+				bioFormulaList.add(bfm.getBioFormula());
+			}
+		}
+		for(BioFormula bioFormula:bioFormulaList) {
+			variables.addAll(ExpressionEvaluator.getVariableList(bioFormulaService.flattenFormula(bioFormula.getName())));
+		}
+			
+		//Filter duplicates
+		variables = variables.stream().distinct().collect(Collectors.toList());
+		
+		List<BioComposition> bcList = bioCompositionRepository.getBioCompositionByTagNameList(variables);
+		List<BioVariable> bvList = bioVariableRepository.getVariableBySymbolList(variables);
+		BioVariableAndCompostionModel bioVariableAndCompostionModel = new BioVariableAndCompostionModel();
+		bioVariableAndCompostionModel.setMaterialId(materialId);
+		bioVariableAndCompostionModel.setVariableId(variableId);
+		bioVariableAndCompostionModel.setBioVariables(bvList);
+		bioVariableAndCompostionModel.setBioComposition(bcList);
+		return bioVariableAndCompostionModel;
+	
+	}
+	/*
 	public List<BioVariable> getBioDependentVariables(Long materialId, Integer variableID) {
 		List<BioFormulaMaterial>  bfmList = bioFormulaMaterialRepository.getBioFormulaMaterialByMaterialId(materialId);
 		return getBioDependentVariables(bfmList,variableID);
@@ -51,14 +98,16 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 	
 	public List<BioVariable> getBioDependentVariables(List<BioFormulaMaterial>  bfmList, Integer variableID) {
 		List<BioVariable> bvList = new ArrayList<BioVariable>();
+		
+	
 		bvList = bfmList.stream()
 				.filter(bfm->bfm.getBioFormula().getBioVariable().getId().intValue()==variableID.intValue())
 				.map(bfm -> bfm.getBioFormula().getBioDependentVariable()).distinct()
 				.collect(Collectors.toList());
-		
+	
 			return bvList;
 	}
-
+*/
 	@Override
 	public List<BioFormula> getBioFormula(Long materialId, Integer variableID, Integer dependentVariableID) {
 		List<BioFormulaMaterial>  bfmList = bioFormulaMaterialRepository.getBioFormulaMaterialByMaterialId(materialId);
@@ -68,11 +117,22 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 
 	public List<BioFormula> getBioFormula(List<BioFormulaMaterial>  bfmList, Integer variableID, Integer dependentVariableID) {
 		List<BioFormula> bfList = new ArrayList<BioFormula>();
+		String dependentVariableName ="";
+		try {
+			BioVariable bv = bioVariableRepository.getOne(dependentVariableID);
+			dependentVariableName = bv.getSymbol();
+		}
+		catch(EntityNotFoundException ex) {
+			BioComposition bc = bioCompositionRepository.getOne(dependentVariableID);
+			dependentVariableName = bc.getTagName();
+		}
+		
+		final String dvn = dependentVariableName;
 		bfList =bfmList.stream()
-				.filter(bfm-> bfm.getBioFormula().getBioVariable().getId().intValue()==variableID.intValue() && bfm.getBioFormula().getBioDependentVariable().getId().intValue()==dependentVariableID.intValue())
+				.filter(bfm-> bfm.getBioFormula().getBioVariable().getId().intValue()==variableID.intValue() &&
+				ExpressionEvaluator.getVariableList(bioFormulaService.flattenFormula(bfm.getBioFormula().getFormula())).contains(dvn))
 				.map(bfm -> bfm.getBioFormula()).distinct()
 				.collect(Collectors.toList());
-				
 		return bfList;
 	}
 	

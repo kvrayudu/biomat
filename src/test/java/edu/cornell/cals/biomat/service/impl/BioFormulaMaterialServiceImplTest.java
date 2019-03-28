@@ -63,16 +63,6 @@ public class BioFormulaMaterialServiceImplTest {
 
 	
 
-	@Test
-	public void getBioDependentVariables() {
-		logger.info("Start");
-		
-		List<BioVariable>  bvList =  bioFormulaMaterialService.getBioDependentVariables(1004l,865);
-		bvList.forEach(bv->logger.info("{}",bv));
-		Assert.isTrue(bvList.size()>1,"Variable list size is not Correct");
-		
-
-	}
 
 	@Test
 	public void getBioFormula() {

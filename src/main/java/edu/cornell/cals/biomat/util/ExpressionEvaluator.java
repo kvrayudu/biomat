@@ -38,7 +38,13 @@ public class ExpressionEvaluator {
 		return eavaluatedValues;
 	}
 	
-	
+	/*
+	 * Bastardizing ExpressionEvaluator to get what we want....
+	 * 
+	 * If Expression Evaluator throws exception, it means that there exis one variable.
+	 * in the Catch Block we fetch the variable and add it to the list.
+	 * If the Expression is evaluated to something, the value of D will not be null. 
+	 */
 	public static List<Map<String,Object>> getVariables(String expression) {
 		logger.info("Start getVariables {} " +expression);
 		Map<String,Double> map = new HashMap<String,Double>();
@@ -51,7 +57,7 @@ public class ExpressionEvaluator {
 			}
 			catch(UnknownFunctionOrVariableException ex) {
 				Map<String,Object> variableMap =  new HashMap<String,Object>();
-				map.put(ex.getToken(), 1.0);
+				map.put(ex.getToken(), 1.0); // substitute 1.0 for the current token. just to move forward
 				variableMap.put(KEY_VARIABLE,ex.getToken());
 				variableMap.put(KEY_POS,ex.getPosition());
 				list.add(variableMap);
@@ -70,8 +76,4 @@ public class ExpressionEvaluator {
 		listMap.stream().forEach(map -> list.add(map.get(KEY_VARIABLE).toString()));
 		return list;
 	}
-	
-	
-
-
 }

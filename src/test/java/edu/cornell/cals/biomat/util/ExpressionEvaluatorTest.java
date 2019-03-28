@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import edu.cornell.cals.biomat.dao.BioMaterialNutrient;
+import edu.cornell.cals.biomat.dao.BioMaterialComposition;
 import edu.cornell.cals.biomat.dao.BioVariable;
-import edu.cornell.cals.biomat.repository.BioMaterialNutrientRepository;
+import edu.cornell.cals.biomat.repository.BioMaterialCompositionRepository;
 import edu.cornell.cals.biomat.repository.BioVariableRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,7 +21,7 @@ public class ExpressionEvaluatorTest {
 	@Autowired
 	BioVariableRepository bioVariableRepository;
 	@Autowired
-	BioMaterialNutrientRepository bioMaterialNutrientRepository;
+	BioMaterialCompositionRepository bioMaterialCompositionRepository;
 	@Test
 	public void testEval() {
 		Map<String,Double> map = new HashMap<String,Double>();
@@ -190,7 +190,7 @@ public class ExpressionEvaluatorTest {
 		});
 		
 
-		List <BioMaterialNutrient> bmnList = bioMaterialNutrientRepository.findByIdMaterialId(9004l);
+		List <BioMaterialComposition> bmnList = bioMaterialCompositionRepository.findByIdMaterialId(9004l);
 		System.out.println("\nSIZE" + bmnList.size());
 		assert(list.size()>0);
 		

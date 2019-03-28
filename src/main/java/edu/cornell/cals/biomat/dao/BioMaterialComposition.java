@@ -10,12 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 @Entity
-@Table(name="bio_material_nutrient")
-public class BioMaterialNutrient implements Serializable{
+@Table(name="bio_material_composition")
+public class BioMaterialComposition implements Serializable{
 	private static final long serialVersionUID = 1987782750999640931L;
 	
 	@EmbeddedId
-	private BioMaterialNutrientId id;
+	private BioMaterialCompositionId id;
 	
 	
 	private Double nutrientValue;
@@ -33,11 +33,11 @@ public class BioMaterialNutrient implements Serializable{
 	private String addModDate;
 	private String cc;
 	
-	
-	
 	@ManyToOne
-    @JoinColumns(@JoinColumn(name = "nutrient_id", referencedColumnName = "id", nullable = false, insertable=false, updatable=false))
-    private BioVariable bioVariable;
+    @JoinColumns(@JoinColumn(name = "composition_id", referencedColumnName = "id", nullable = false, insertable=false, updatable=false))
+    private BioComposition bioComposition;
+	
+	
 
 	@OneToOne
     @JoinColumns(@JoinColumn(name = "material_id", referencedColumnName = "id", nullable = false, insertable=false, updatable=false))
@@ -49,16 +49,10 @@ public class BioMaterialNutrient implements Serializable{
 	public void setBioMaterial(BioMaterial bioMaterial) {
 		this.bioMaterial = bioMaterial;
 	}
-	public BioVariable getBioVariable() {
-		return bioVariable;
-	}
-	public void setBioVariable(BioVariable bioVariable) {
-		this.bioVariable = bioVariable;
-	}
-	public BioMaterialNutrientId getId() {
+	public BioMaterialCompositionId getId() {
 		return id;
 	}
-	public void setId(BioMaterialNutrientId id) {
+	public void setId(BioMaterialCompositionId id) {
 		this.id = id;
 	}
 	public Double getNutrientValue() {
@@ -145,18 +139,12 @@ public class BioMaterialNutrient implements Serializable{
 	public void setCc(String cc) {
 		this.cc = cc;
 	}
-	@Override
-	public String toString() {
-		return "BioMaterialNutrient [id=" + id + ", nutrientValue=" + nutrientValue + ", dataPoints=" + dataPoints
-				+ ", stdError=" + stdError + ", srcCd=" + srcCd + ", derivationCd=" + derivationCd + ", nbdNumber="
-				+ nbdNumber + ", numberOfStudies=" + numberOfStudies + ", minValue=" + minValue + ", maxValue="
-				+ maxValue + ", df=" + df + ", lowEb=" + lowEb + ", statCmt=" + statCmt + ", addModDate=" + addModDate
-				+ ", cc=" + cc + "]";
+	public BioComposition getBioComposition() {
+		return bioComposition;
+	}
+	public void setBioComposition(BioComposition bioComposition) {
+		this.bioComposition = bioComposition;
 	}
 	
 	
-	
-	
-	
-
 }

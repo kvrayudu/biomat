@@ -1,5 +1,6 @@
 package edu.cornell.cals.biomat.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
 import edu.cornell.cals.biomat.repository.BioVariableRepository;
 import edu.cornell.cals.biomat.service.BioVariableService;
@@ -49,4 +49,13 @@ public class BioVariableServiceImpl implements BioVariableService{
 		return map;
 	}
 
+	public List<String> getNonExistingVariables(List<String> variableList){
+		List<String> nonExistingVariables = new ArrayList();
+		variableList.forEach(variable -> {
+				BioVariable bv  =bioVariableRepository.getVariableBySymbol(variable);
+				if(bv==null) nonExistingVariables.add(variable);
+		});
+		
+		return nonExistingVariables;
+	}
 }

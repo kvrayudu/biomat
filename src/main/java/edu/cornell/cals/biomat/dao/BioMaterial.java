@@ -33,7 +33,7 @@ public class BioMaterial implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long usdaId;
+	
 	@JsonProperty
 	@NotNull
 	@Size(min=2, max=300)
@@ -75,12 +75,6 @@ public class BioMaterial implements Serializable{
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public Long getUsdaId() {
-		return usdaId;
-	}
-	public void setUsdaId(Long usdaId) {
-		this.usdaId = usdaId;
 	}
 	public String getShortDesc() {
 		return shortDesc;
@@ -179,7 +173,7 @@ public class BioMaterial implements Serializable{
 	
 	@Override
 	public String toString() {
-		return "BioMaterial [id=" + id + ", usdaId=" + usdaId + ", shortDesc=" + shortDesc + ", longDesc=" + longDesc
+		return "BioMaterial [id=" + id + ", shortDesc=" + shortDesc + ", longDesc=" + longDesc
 				+ ", commonName=" + commonName + ", mfgName=" + mfgName + ", usdaSurvey=" + usdaSurvey + ", refuseDesc="
 				+ refuseDesc + ", refusePercentage=" + refusePercentage + ", scientificName=" + scientificName
 				+ ", nFactor=" + nFactor + ", pFactor=" + pFactor + ", fFactor=" + fFactor + ", choFactor=" + choFactor

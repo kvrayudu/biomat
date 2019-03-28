@@ -1,16 +1,10 @@
 package edu.cornell.cals.biomat.util;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.cornell.cals.biomat.dao.BioMaterial;
-import edu.cornell.cals.biomat.dao.BioMeasurement;
-import edu.cornell.cals.biomat.dao.BioVariable;
-import edu.cornell.cals.biomat.dao.Measurements;
 import edu.cornell.cals.biomat.repository.BioMaterialRepository;
 import edu.cornell.cals.biomat.repository.BioMeasurementRepository;
 import edu.cornell.cals.biomat.repository.BioVariableRepository;
@@ -22,8 +16,8 @@ public class MeasurementsDataInitializer {
 	@Autowired
 	MeasurementsRepository measurementsRepository;
 	
-	@Autowired
-	BioMeasurementRepository bioMeasurementRepository;
+	//@Autowired
+	//BioMeasurementRepository bioMeasurementRepository;
 	
 	@Autowired
 	BioMaterialRepository bioMaterialRepository;
@@ -32,7 +26,7 @@ public class MeasurementsDataInitializer {
 	BioVariableRepository bioVariableRepository;
 	
 	Logger logger = LoggerFactory.getLogger(MeasurementsDataInitializer.class);
-
+/*
 	public  void populate() {
 		logger.info("Start");
 		List<Measurements> measurmentsList = measurementsRepository.findAll();
@@ -71,5 +65,5 @@ public class MeasurementsDataInitializer {
 		});
 		
 	}
-	
+	*/
 }

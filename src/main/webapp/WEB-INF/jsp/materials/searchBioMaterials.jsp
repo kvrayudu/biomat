@@ -21,6 +21,7 @@
 			      <form:input class="form-control"  value ="${bioMaterialSearchForm.bioMaterialName}" path="bioMaterialName"   placeholder="Enter Partial or full Bio-Material Name"/>
 			      <form:errors  class="text-danger"  path="bioMaterialName" />
 			    </div>
+			    <!-- 
 			    <div class="form-group">
 			       <form:radiobutton class="text-info" path = "usdaOnly" value = "u"/>
 			       <form:label class="text-info" path = "usdaOnly">USDA Data Only</form:label>
@@ -29,8 +30,9 @@
                   <form:radiobutton class="text-info" path = "usdaOnly" value = "a"/>
                   <form:label class="text-info" path = "usdaOnly">All (Includes Contributed Data)</form:label>
       			</div>
+      			-->
 				<button type="submit" class="btn btn-info">Search</button>
-			
+			 
 			  </form:form>	
 			
 	

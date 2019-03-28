@@ -59,8 +59,9 @@
     <thead>
       <tr>
         <th>Name</th>
-        <th>Is Factor?</th>
         <th>Desc</th>
+        <th>Symbol</th>
+        <th>UOM</th>
         <th>&nbsp;</th>
       </tr>
     </thead>
@@ -68,18 +69,9 @@
     <c:forEach var="bioVariable" items="${bioVariableSearchResultsForm.bioVariables}">
       <tr>
         <td>${bioVariable.name}</td>
-        <td>
-        	<c:choose>
-        		<c:when test="${bioVariable.isFactor ==1}">
-        			Yes
-        		</c:when>
-        		<c:otherwise>
-        			No
-        		</c:otherwise>
-        	
-        	</c:choose>
-        </td>
         <td>${fn:substring(bioVariable.description, 0, 20)}</td>
+        <td>${bioVariable.symbol}</td>
+        <td>${bioVariable.uom}</td>
         <td>
 		    <button type="button" class="btn btn-default">
 		      <span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#id_${bioVariable.id}"></span> Details
@@ -123,25 +115,12 @@
 					  
 					   <TR>
 						  <td>SI Unit</td>
-						  <td>${bioVariable.siUnit}</td>
-					  </TR>	  
-					   <TR>
-						  <td>Is Factor?</td>
-						  <td>
-				        	<c:choose>
-				        		<c:when test="${bioVariable.isFactor ==1}">
-				        			Yes
-				        		</c:when>
-				        		<c:otherwise>
-				        			No
-				        		</c:otherwise>
-						  	</c:choose>
-						  </td>
+						  <td>${bioVariable.symbol}</td>
 					  </TR>	  
 					  
 					   <TR>
-						  <td>Symbol</td>
-						  <td>${bioVariable.symbol}</td>
+						  <td>UOM</td>
+						  <td>${bioVariable.uom}</td>
 					  </TR>	  
 					
 					   <TR>

@@ -16,15 +16,6 @@
 		
 	<h5 class="text-primary">
 		Database Search: 
-		 <b>
-		<c:if test="${bioMaterialSearchResultsForm.bioMaterialSearchForm.usdaOnly eq 'a'}">
- 			USDA and Contributed Data
- 		</c:if>
- 		
-		<c:if test="${bioMaterialSearchResultsForm.bioMaterialSearchForm.usdaOnly eq 'u'}">
- 			USDA Data only
- 		</c:if>
- 		</b>
 	</h5>
 	
 	<c:if test ="${bioMaterialSearchResultsForm.lastPage>0}">
@@ -35,7 +26,7 @@
 		<!--  PAGER START -->
 		<form:form  action="searchBioMaterials"  method="post"  modelAttribute="bioMaterialSearchForm" >
 			<form:hidden  value= "${bioMaterialSearchResultsForm.bioMaterialSearchForm.bioMaterialName }" path="bioMaterialName"/>
-			<form:hidden  value= "${bioMaterialSearchResultsForm.bioMaterialSearchForm.usdaOnly}" path="usdaOnly"/>
+			
 			
 			<button type="submit" name="pageNumber"  value = "0" class="btn btn-default  btn-xs">Start</button>
 			<c:if test="${(bioMaterialSearchResultsForm.currentPage) ne 0}">
@@ -91,18 +82,9 @@
 		     </a>
 		    -->
 		    
-		    <c:choose>
-		    	<c:when test="${bioMaterial.usdaId gt 0}">
-			     <a href="updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default disabled">
-			    	  <span class="glyphicon glyphicon-edit"></span> Edit
-			     </a>
-			     </c:when>
-			     <c:otherwise>
-				     <a href="updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default ">
-				    	  <span class="glyphicon glyphicon-edit"></span> Edit
-				     </a>
-			     </c:otherwise>
-			 </c:choose> 
+		     <a href="updateBioMaterial?materialId=${bioMaterial.id}" role="button" class="btn btn-default ">
+		    	  <span class="glyphicon glyphicon-edit"></span> Edit
+		     </a>
 		    
 		    
 		    
@@ -130,10 +112,6 @@
 					  <td>${bioMaterial.id}</td>
 					  </TR>
 					  
-					  <TR>
-						  <td>USDA ID</td>
-						  <td>${bioMaterial.usdaId}</td>
-					  </TR>	  
 					
 					  <TR>
 						  <td>Short Desc</td>
