@@ -6,9 +6,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioMaterial;
-import edu.cornell.cals.biomat.dao.BioMaterialNutrient;
 
 public class EditBioFormulaForm implements Serializable{
 	private static final long serialVersionUID = 2947162447360595216L;
@@ -17,7 +15,7 @@ public class EditBioFormulaForm implements Serializable{
 	private String formulaName;
 	private Long selectedFormulaId;
 	List<BioMaterial> bioMaterials;
-	
+
 	public List<BioMaterial> getBioMaterials() {
 		return bioMaterials;
 	}
@@ -41,12 +39,6 @@ public class EditBioFormulaForm implements Serializable{
 		return "EditBioFormulaForm [formulaName=" + formulaName + ", selectedFormulaId="
 				+ selectedFormulaId +"bioMaterials "+bioMaterials+"]";
 	}
-	
-	
-	
-	
-	
-	
-	
 
 }
+  

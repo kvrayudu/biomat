@@ -1,11 +1,10 @@
 package edu.cornell.cals.biomat.repository;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -19,7 +18,7 @@ public interface BioFormulaMaterialRepository extends JpaRepository<BioFormulaMa
 	
 	@Query(value="SELECT bfm FROM BioFormulaMaterial bfm where bfm.materialId = 0 OR bfm.materialId = :materialId")
     List<BioFormulaMaterial> getBioFormulaMaterialByMaterialId(@Param("materialId") Long materialId);
-
+	
 	@Query(value="SELECT bfm FROM BioFormulaMaterial bfm where bfm.formulaId = :formulaId")
 	List<BioFormulaMaterial> getBioMaterialByFormulaId(@Param("formulaId") Long formulaId);
 
@@ -27,5 +26,5 @@ public interface BioFormulaMaterialRepository extends JpaRepository<BioFormulaMa
 	@Modifying
 	@Query(value="Delete FROM BioFormulaMaterial bfm where bfm.formulaId = :formulaId and bfm.materialId = :materialId")
 	void deleteBioFormulaMaterialByMaterialIdAndFormulaId(@Param("materialId") Long materialId, @Param("formulaId") Long formulaId);
-	
+
 }

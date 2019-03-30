@@ -81,6 +81,20 @@ public class BioMaterialRestController {
 		bioFormulaMaterialService.delete(materialId, formulaId);
 		return ResponseEntity.ok("Success");
 	}
+	
+	@GetMapping("getFormula")
+	public ResponseEntity<String>  getFormulae(@RequestParam(value="q", required=false) String q) throws Exception {
+		logger.info("Start getFormulae {} " + q);
+		List<BioFormula>bioFormulas = new ArrayList<BioFormula>();
+		if(q.length() >=3)
+			bioFormulas = bioFormulaService.getBioFormulaByName(q);
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonMaterialArray = mapper.writeValueAsString(bioFormulas);
+
+		String s="{\"msg\":\"\", \"data\":" + jsonMaterialArray +"}";
+		logger.info("end searchBioMaterials " + s);
+		return ResponseEntity.ok(s);
+	}
 
 	
 
@@ -162,20 +176,6 @@ public class BioMaterialRestController {
 			bioMaterials =bioMaterialService.getBioMaterial(q);
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonMaterialArray = mapper.writeValueAsString(bioMaterials);
-		
-		String s="{\"msg\":\"\", \"data\":" + jsonMaterialArray +"}";
-		logger.info("end searchBioMaterials " + s);
-		return ResponseEntity.ok(s);
-	}
-	
-	@GetMapping("getFormula")
-	public ResponseEntity<String>  getFormulae(@RequestParam(value="q", required=false) String q) throws Exception {
-		logger.info("Start getFormulae {} " + q);
-		List<BioFormula>bioFormulas = new ArrayList<BioFormula>();
-		if(q.length() >=3)
-			bioFormulas = bioFormulaService.getBioFormulaByName(q);
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonMaterialArray = mapper.writeValueAsString(bioFormulas);
 		
 		String s="{\"msg\":\"\", \"data\":" + jsonMaterialArray +"}";
 		logger.info("end searchBioMaterials " + s);

@@ -1,6 +1,5 @@
 package edu.cornell.cals.biomat.controller;
 
-import java.net.http.HttpResponse;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +29,14 @@ import edu.cornell.cals.biomat.model.material.BioMaterialCompositionForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchResultsForm;
 import edu.cornell.cals.biomat.model.material.BioObservedPointsForm;
-import edu.cornell.cals.biomat.repository.BioMeasurementRepository;
 import edu.cornell.cals.biomat.service.BioMatEmailService;
 import edu.cornell.cals.biomat.service.BioMaterialCompositionService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
+
+import java.net.http.HttpResponse;
+import javax.servlet.http.HttpServletResponse;
+import edu.cornell.cals.biomat.model.material.EditBioFormulaForm;
+import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
 
 @Controller
 public class BioMaterialsController {
@@ -50,9 +53,10 @@ public class BioMaterialsController {
 	protected BioMaterialCompositionService bioMaterialCompositionService;
 	//@Autowired
 	//protected BioMeasurementRepository bioMeasurementRepository;
+
 	@Autowired
 	protected BioFormulaMaterialService bioFormulaMaterialService;
-
+	
 	@GetMapping("bioObservedPoints")
 	public ModelAndView displayBioObservedPoints() {
 		logger.info("displayBioObservedPoints");
@@ -74,27 +78,6 @@ public class BioMaterialsController {
 		return mv;
 	}	
 */
-	
-	@PostMapping("bioMaterialComposition")
-	public ModelAndView getBioMaterialNutrients(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
-		logger.info("getBioMaterialNutrients");
-		BioMaterialCompositionForm bioMaterialCompositionForm = new BioMaterialCompositionForm();
-		List<BioMaterialComposition> bioMaterialNutrientList = bioMaterialCompositionService.getComposition(materialId);
-		logger.info("Fetched bioMaterialNutrientList {} {}", bioMaterialNutrientList.size()  );
-		bioMaterialCompositionForm.setSelectedBioMaterialId(materialId);
-		bioMaterialCompositionForm.setBioMaterialNutrientList(bioMaterialNutrientList);
-		ModelAndView  mv = new ModelAndView("materials/bioMaterialComposition","bioMaterialCompositionForm",bioMaterialCompositionForm);
-		return mv;
-	}	
-
-	
-	@GetMapping("bioMaterialComposition")
-	public ModelAndView displayBioMaterialNutrientsPage() {
-		logger.info("Display bioMaterialComposition");
-		BioMaterialCompositionForm bioMaterialCompositionForm = new BioMaterialCompositionForm();
-		ModelAndView  mv = new ModelAndView("materials/bioMaterialComposition","bioMaterialCompositionForm",bioMaterialCompositionForm);
-		return mv;
-	}	
 
 	@PostMapping("editFormula")
 	public ModelAndView getFormulaeForEdit(@RequestParam(value="selectedFormulaId", required=true) Long selectedFormulaId, @RequestParam(value="formulaName", required=true) String formulaName) {
@@ -119,8 +102,30 @@ public class BioMaterialsController {
 		EditBioFormulaForm editBioFormulaForm= new EditBioFormulaForm();
 		ModelAndView  mv = new ModelAndView("materials/editFormula","editBioFormulaForm",editBioFormulaForm);
 		return mv;
+	}
+	
+	@PostMapping("bioMaterialComposition")
+	public ModelAndView getBioMaterialNutrients(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
+		logger.info("getBioMaterialNutrients");
+		BioMaterialCompositionForm bioMaterialCompositionForm = new BioMaterialCompositionForm();
+		List<BioMaterialComposition> bioMaterialNutrientList = bioMaterialCompositionService.getComposition(materialId);
+		logger.info("Fetched bioMaterialNutrientList {} {}", bioMaterialNutrientList.size()  );
+		bioMaterialCompositionForm.setSelectedBioMaterialId(materialId);
+		bioMaterialCompositionForm.setBioMaterialNutrientList(bioMaterialNutrientList);
+		ModelAndView  mv = new ModelAndView("materials/bioMaterialComposition","bioMaterialCompositionForm",bioMaterialCompositionForm);
+		return mv;
 	}	
 
+	
+	@GetMapping("bioMaterialComposition")
+	public ModelAndView displayBioMaterialNutrientsPage() {
+		logger.info("Display bioMaterialComposition");
+		BioMaterialCompositionForm bioMaterialCompositionForm = new BioMaterialCompositionForm();
+		ModelAndView  mv = new ModelAndView("materials/bioMaterialComposition","bioMaterialCompositionForm",bioMaterialCompositionForm);
+		return mv;
+	}	
+
+	
 	
 	@GetMapping("addBioMaterial")
 	public ModelAndView displayAddBioMaterialPage() {
@@ -176,9 +181,6 @@ public class BioMaterialsController {
 		}
 		else if(principal ==null) {
 			throw new RuntimeException("User is not authorized to update a material");
-		}
-		else if(bioMaterial.getUsdaId()!=null) {
-			throw new RuntimeException("USDA Material can't be updated");
 		}
 		else {
 			BioMaterial bm = bioMaterialService.updateBioMaterial(bioMaterial,principal.getName());

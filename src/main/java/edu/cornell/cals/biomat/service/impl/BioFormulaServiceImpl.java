@@ -1,6 +1,7 @@
 package edu.cornell.cals.biomat.service.impl;
 
 import java.util.ArrayList;
+import edu.cornell.cals.biomat.repository.FormulaRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,6 @@ import edu.cornell.cals.biomat.model.BioMaterialCompositionModel;
 import edu.cornell.cals.biomat.model.formula.BioFormulaForm;
 import edu.cornell.cals.biomat.repository.BioCompositionRepository;
 import edu.cornell.cals.biomat.repository.BioFormulaRepository;
-import edu.cornell.cals.biomat.repository.FormulaRepository;
-import edu.cornell.cals.biomat.service.BioCompositionService;
 import edu.cornell.cals.biomat.service.BioCompositionService;
 import edu.cornell.cals.biomat.service.BioFormulaService;
 import edu.cornell.cals.biomat.service.BioVariableService;
@@ -44,14 +43,128 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 	BioVariableService bioVariableService;
 	
 	@Autowired
-	FormulaRepository formulaRepository;
-	@Autowired
 	BioCompositionRepository bioCompositionRepository;
 	
+	@Autowired
+	BioCompositionService bioCompositionService;
+	
+	@Autowired
+	FormulaRepository formulaRepository;
 	
 	
+	@Query(value="SELECT bf FROM BioFormula bf where bf.name like :search OR bf.formulaDesc like :search")
+    public List<BioFormula> getBioFormulaByNameOrDesc(String search){
+		return bioFormulaRepository.getBioFormulaByNameOrDesc("%"+search +"%");
+	}
+
+	/**
+	 * A formula is a valid entry if
+	 * 1.	Left and Right Parenthesis Match
+	 * 2.	Mathematical functions and operators used with in the formula such as *,/,log, exp  etc are defined in  <https://www.objecthunter.net/exp4j/#Introduction>
+	 * 3.	Variables used in the formula are defined in the bio_variable (column-  Symbol)
+	 * 4.	Variables used in the formula are defined in composition
+	 * 5.	If the formula contains another formula, the inner formula must be defined in bio_formula table (name column)
+	 * 
+	 *  
+	 *  
+	 * @param formula
+	 * @param errors
+	 * @return
+	 */
+	
+	public boolean isValidFormula(String formulaName, String formula, Map<String,String> errors) {
+		logger.info("Start {},{}",formulaName, formula);
+		boolean isValid =true;
+		if(!BalancedParenthesisCheck.valid(formula)) {
+			logger.info("Formula is invalid. Mismatched Braces");
+			errors.put("formula", "There is an error in formula. Does braces match?");
+			isValid=false;
+		}
+		BioFormula bioFormula = bioFormulaRepository.getBioFormulaByName(formulaName);
+		
+		if(bioFormula != null) {
+			logger.info("Formula is invalid. Name Already Taken");
+			errors.put("name", "The Formula Name is already taken. Please use another name.");
+			isValid=false;
+		}
+		List<String> variables  = new ArrayList();
+		try {
+			variables = ExpressionEvaluator.getVariableList(formula);
+		}
+		catch(Exception ex) {
+			logger.info("Formula is invalid. Expression is invalid");
+			errors.put("formula", "Formula Expression is invalid. " + ex.getMessage());
+			isValid=false;
+		}
+		List<String> nonVariables = bioVariableService.getNonExistingVariables(variables);  //remove all defined variables
+		if(nonVariables.size()>0) {
+			nonVariables = getNonExitingFormula(nonVariables); // remove all formula's
+		}
+		
+		if(nonVariables.size()>0) {
+			nonVariables = bioCompositionService.getNonExistingTagNames(nonVariables);//remove all composition 
+		}
+		
+		if(nonVariables.size()>0) {
+			StringBuffer SB=new StringBuffer();
+			nonVariables.forEach(s->{
+				SB.append(s+" ");	
+			});
+			errors.put("formula", "Formula Contains following Undefined variables, formula or bio-material composition : "  + SB.toString());
+			isValid=false;
+		}
+		//if()
+		logger.info("Returning {}", isValid);
+		return isValid;
+	}
+	
+	@Override
+	public List<BioFormula> getBioFormulaByName(String name) {
+		return formulaRepository.getBioFormulaByName(name);
+	}
+	
+	public List<String> getNonExitingFormula(List<String> variableList){
+		List<String> nonExistingVariables = new ArrayList();
+		variableList.forEach(variable -> {
+			BioFormula BF = bioFormulaRepository.getBioFormulaByName(variable);			
+			if(BF==null) nonExistingVariables.add(variable);
+		});
+		
+		return nonExistingVariables;
+	}
+	
+	/**
+	 * If formula contains another formula, this method will flatten
+	 * @param formula
+	 * @return
+	 */
+	public String flattenFormula(String formula) {
+		List<String> variablesInFormula = ExpressionEvaluator.getVariableList(formula);
+		List<BioFormula> formulaList = getFormulas(variablesInFormula );
+
+		while(!formulaList.isEmpty()) {
+			for(BioFormula bf :  formulaList) {
+				formula = formula.replaceAll(bf.getName(), "(" + bf.getFormula() + ")");
+			}
+			variablesInFormula = ExpressionEvaluator.getVariableList(formula);
+			formulaList = getFormulas(variablesInFormula );
+		}
+		return formula;
+	}
+
+	
+	protected List<BioFormula> getFormulas(List<String> variablesInFormula ){
+		List<BioFormula> formulaList = new ArrayList();
+		for(String variable : variablesInFormula) {
+			BioFormula bf= bioFormulaRepository.getBioFormulaByName(variable);
+			if(bf!=null)		
+				formulaList.add(bf);
+		}
+		return formulaList;
+	}
+
 	public Map<String,List<Double>> getCalculatedDataPoints(Long formulaId, 
-			List<BioMaterialNutrientModel> bioMaterialNutrientModelList,
+			List<BioMaterialCompositionModel> bioMaterialCompositionModelList,
 			Integer dependentVariableId,
 			Integer minRange, Integer maxRange){
 		logger.info("getCalculatedDataPoints");

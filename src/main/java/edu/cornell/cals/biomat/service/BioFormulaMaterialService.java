@@ -6,6 +6,7 @@ import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioFormulaMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
 import edu.cornell.cals.biomat.model.BioVariableAndCompostionModel;
+import edu.cornell.cals.biomat.dao.BioMaterial;
 
 public interface BioFormulaMaterialService {
 	BioFormulaMaterial getBioFormulaMaterial(Long id);
@@ -18,7 +19,10 @@ public interface BioFormulaMaterialService {
 	List<BioFormula> getBioFormula(Long materialId, Integer variableID, Integer dependentVariableID);
 	List<BioFormula> getBioFormula(List<BioFormulaMaterial>  bfmList, Integer variableID, Integer dependentVariableID);
 
-	
+	List<BioMaterial> getBioMaterialByFormulaId(Long selectedFormulaId);
+	public void delete(String materialId, String formulaId);
+	void addBioFormula(Long selectedFormulaId, Long selectedBioMaterialId);
+
 	BioVariableAndCompostionModel getVariablesInFormula(Long materialId, int variableId);
 	
 }
