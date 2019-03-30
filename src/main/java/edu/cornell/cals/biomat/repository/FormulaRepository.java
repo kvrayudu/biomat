@@ -17,5 +17,6 @@ public interface FormulaRepository extends JpaRepository<Formula, Long> {
 	@Query(value="SELECT bf FROM BioFormula bf where bf.addedBy = :userId")
     List<BioFormula> getBioFormulaByUserId(@Param("userId") String userId);
 	
-	
+	@Query(value="SELECT bf FROM BioFormula bf where bf.name like %:name%")
+    List<BioFormula> getBioFormulaByName(@Param("name") String name);
 }

@@ -15,4 +15,5 @@ public interface BioFormulaService {
 	String flattenFormula(String formula);
 	boolean isValidFormula(String formula, String formulaName, Map<String,String> errors);
 	List<BioFormula> getBioFormulaByNameOrDesc(String search);
+	List<BioFormula> getBioFormulaByName(String q);
 }

@@ -1,6 +1,7 @@
 package edu.cornell.cals.biomat.service.impl;
 
 import java.util.ArrayList;
+import edu.cornell.cals.biomat.repository.FormulaRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,8 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 	@Autowired
 	BioCompositionService bioCompositionService;
 	
+	@Autowired
+	FormulaRepository formulaRepository;
 	
 	
 	@Query(value="SELECT bf FROM BioFormula bf where bf.name like :search OR bf.formulaDesc like :search")
@@ -115,7 +118,10 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 		return isValid;
 	}
 	
-
+	@Override
+	public List<BioFormula> getBioFormulaByName(String name) {
+		return formulaRepository.getBioFormulaByName(name);
+	}
 	
 	public List<String> getNonExitingFormula(List<String> variableList){
 		List<String> nonExistingVariables = new ArrayList();

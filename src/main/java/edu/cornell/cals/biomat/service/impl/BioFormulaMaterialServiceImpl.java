@@ -1,10 +1,19 @@
 package edu.cornell.cals.biomat.service.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 
+import org.slf4j.LoggerFactory;
 import javax.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
+
+import ch.qos.logback.classic.Logger;
+import edu.cornell.cals.biomat.controller.BioMaterialsController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +29,7 @@ import edu.cornell.cals.biomat.repository.BioVariableRepository;
 import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
 import edu.cornell.cals.biomat.service.BioFormulaService;
 import edu.cornell.cals.biomat.util.ExpressionEvaluator;
+import edu.cornell.cals.biomat.dao.BioMaterial;
 
 @Service
 public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
@@ -32,6 +42,7 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 	BioCompositionRepository bioCompositionRepository;
 	@Autowired
 	BioVariableRepository bioVariableRepository;
+	org.slf4j.Logger logger = LoggerFactory.getLogger(BioFormulaMaterialServiceImpl.class);
 
 	@Override
 	public BioFormulaMaterial getBioFormulaMaterial(Long id) {
@@ -42,6 +53,32 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 	public List<BioFormulaMaterial> getBioFormulaMaterialByMaterialId(Long materialId) {
 		return bioFormulaMaterialRepository.getBioFormulaMaterialByMaterialId(materialId);
 	}
+	
+	@Override
+	public List<BioMaterial> getBioMaterialByFormulaId(Long selectedFormulaId) {
+		List<BioFormulaMaterial> bfms = bioFormulaMaterialRepository.getBioMaterialByFormulaId(selectedFormulaId);
+		List<BioMaterial> bm = new ArrayList<BioMaterial>();
+		for (BioFormulaMaterial bfm : bfms) {
+			bm.add(bfm.getBioMaterial());
+		}
+		return bm;
+	}
+
+	@Override
+	public void delete(String materialId, String formulaId) {
+		bioFormulaMaterialRepository.deleteBioFormulaMaterialByMaterialIdAndFormulaId(Long.parseLong(materialId), Long.parseLong(formulaId));
+	}
+
+	@Override
+	@Transactional
+	public void addBioFormula(Long selectedFormulaId, Long selectedBioMaterialId) {
+
+		BioFormulaMaterial bfm = new BioFormulaMaterial();
+		bfm.setFormulaId(selectedFormulaId);
+		bfm.setMaterialId(selectedBioMaterialId);
+		bioFormulaMaterialRepository.save(bfm);;
+
+	}	
 
 	
 	public List<BioVariable> getBioVariables(List<BioFormulaMaterial>  bfmList) {

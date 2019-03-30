@@ -33,6 +33,11 @@ import edu.cornell.cals.biomat.service.BioMatEmailService;
 import edu.cornell.cals.biomat.service.BioMaterialCompositionService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
 
+import java.net.http.HttpResponse;
+import javax.servlet.http.HttpServletResponse;
+import edu.cornell.cals.biomat.model.material.EditBioFormulaForm;
+import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
+
 @Controller
 public class BioMaterialsController {
 	private static final int PAGE_SIZE 		= 10;
@@ -49,6 +54,9 @@ public class BioMaterialsController {
 	//@Autowired
 	//protected BioMeasurementRepository bioMeasurementRepository;
 
+	@Autowired
+	protected BioFormulaMaterialService bioFormulaMaterialService;
+	
 	@GetMapping("bioObservedPoints")
 	public ModelAndView displayBioObservedPoints() {
 		logger.info("displayBioObservedPoints");
@@ -70,6 +78,31 @@ public class BioMaterialsController {
 		return mv;
 	}	
 */
+
+	@PostMapping("editFormula")
+	public ModelAndView getFormulaeForEdit(@RequestParam(value="selectedFormulaId", required=true) Long selectedFormulaId, @RequestParam(value="formulaName", required=true) String formulaName) {
+		logger.info("getFormulaeForEdit :: selectedFormulaId:"+selectedFormulaId);
+		EditBioFormulaForm editBioFormulaForm= new EditBioFormulaForm();
+		editBioFormulaForm.setSelectedFormulaId(selectedFormulaId);
+		editBioFormulaForm.setFormulaName(formulaName);
+		editBioFormulaForm.setBioMaterials(bioFormulaMaterialService.getBioMaterialByFormulaId(selectedFormulaId));
+		ModelAndView  mv = new ModelAndView("materials/editFormula","editBioFormulaForm",editBioFormulaForm);
+		return mv;
+	}	
+
+	@PostMapping("addBioMaterialForm")
+	public void addBioMaterialForm(@RequestParam(value="formulaId", required=true) Long selectedFormulaId, @RequestParam(value="selectedBioMaterialId", required=true) Long selectedBioMaterialId, HttpServletResponse response) {
+		bioFormulaMaterialService.addBioFormula(selectedFormulaId, selectedBioMaterialId);
+		response.setStatus(200); 
+	}
+	
+	@GetMapping("editFormula")
+	public ModelAndView displayEditFormulaPage() {
+		logger.info("displayBioMaterialNutrientsPage");
+		EditBioFormulaForm editBioFormulaForm= new EditBioFormulaForm();
+		ModelAndView  mv = new ModelAndView("materials/editFormula","editBioFormulaForm",editBioFormulaForm);
+		return mv;
+	}
 	
 	@PostMapping("bioMaterialComposition")
 	public ModelAndView getBioMaterialNutrients(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
