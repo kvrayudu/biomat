@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<%@page import="java.net.http.HttpResponse"%>
+
 <html lang="en">
 
 <%@ include file = "./../header.jsp" %>
@@ -13,10 +13,10 @@
 <div class="container">
 	<div id="topbar"> <%@ include file = "./../top_bar.jsp" %></div>
 	<div id="menubar"> <%@ include file = "./../menu_bar.jsp" %></div>
-	<h2 class="text-info">Edit Bio Formula Name to Search</h2>
+	<h2 class="text-info">Pick BioFormula</h2>
 
 
-	<form:form  action="editFormula"  method="post"  modelAttribute ="editBioFormulaForm" onSubmit="populate()" id ="originalForm">
+	<form:form  action="associateFormulaAndMaterial"  method="post"  modelAttribute ="editBioFormulaForm" onSubmit="populate()" id ="originalForm">
 
 		<div class="form-group row">
 			<div class="col-sm-9">
@@ -45,9 +45,9 @@
         					<td>${bioMaterial.commonName}</td>
         					<td>${bioMaterial.shortDesc}</td>
         					<td>
-        					<button class="btn btn-info" onClick=deleteAssociation(${bioMaterial.id})>Delete</button>
+        						<button class="btn btn-info" onClick='deleteAssociation(${bioMaterial.id})'>Delete</button>
         					</td>
-        				</tr>	
+   						</tr>	
 
 					</c:forEach>
 				</tbody>
@@ -97,7 +97,7 @@
 	<script>
 	$('#selectedFormulaId').inputpicker({
 	    url: 'getFormula',
-	    fields:['id','name'],
+	    fields:['id','name', 'formulaDesc'],
 	    fieldText : 'name',
 	    fieldValue : 'id',
 	    headShow: true,

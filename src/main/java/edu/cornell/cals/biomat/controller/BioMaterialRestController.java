@@ -86,8 +86,7 @@ public class BioMaterialRestController {
 	public ResponseEntity<String>  getFormulae(@RequestParam(value="q", required=false) String q) throws Exception {
 		logger.info("Start getFormulae {} " + q);
 		List<BioFormula>bioFormulas = new ArrayList<BioFormula>();
-		if(q.length() >=3)
-			bioFormulas = bioFormulaService.getBioFormulaByName(q);
+		bioFormulas = bioFormulaService.getBioFormulaByName(q);
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonMaterialArray = mapper.writeValueAsString(bioFormulas);
 

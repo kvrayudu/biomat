@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -29,14 +30,11 @@ import edu.cornell.cals.biomat.model.material.BioMaterialCompositionForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchForm;
 import edu.cornell.cals.biomat.model.material.BioMaterialSearchResultsForm;
 import edu.cornell.cals.biomat.model.material.BioObservedPointsForm;
+import edu.cornell.cals.biomat.model.material.EditBioFormulaForm;
+import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
 import edu.cornell.cals.biomat.service.BioMatEmailService;
 import edu.cornell.cals.biomat.service.BioMaterialCompositionService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
-
-import java.net.http.HttpResponse;
-import javax.servlet.http.HttpServletResponse;
-import edu.cornell.cals.biomat.model.material.EditBioFormulaForm;
-import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
 
 @Controller
 public class BioMaterialsController {
@@ -79,14 +77,14 @@ public class BioMaterialsController {
 	}	
 */
 
-	@PostMapping("editFormula")
+	@PostMapping("associateFormulaAndMaterial")
 	public ModelAndView getFormulaeForEdit(@RequestParam(value="selectedFormulaId", required=true) Long selectedFormulaId, @RequestParam(value="formulaName", required=true) String formulaName) {
 		logger.info("getFormulaeForEdit :: selectedFormulaId:"+selectedFormulaId);
 		EditBioFormulaForm editBioFormulaForm= new EditBioFormulaForm();
 		editBioFormulaForm.setSelectedFormulaId(selectedFormulaId);
 		editBioFormulaForm.setFormulaName(formulaName);
 		editBioFormulaForm.setBioMaterials(bioFormulaMaterialService.getBioMaterialByFormulaId(selectedFormulaId));
-		ModelAndView  mv = new ModelAndView("materials/editFormula","editBioFormulaForm",editBioFormulaForm);
+		ModelAndView  mv = new ModelAndView("materials/associateFormulaAndMaterial","editBioFormulaForm",editBioFormulaForm);
 		return mv;
 	}	
 
@@ -96,11 +94,11 @@ public class BioMaterialsController {
 		response.setStatus(200); 
 	}
 	
-	@GetMapping("editFormula")
+	@GetMapping("associateFormulaAndMaterial")
 	public ModelAndView displayEditFormulaPage() {
 		logger.info("displayBioMaterialNutrientsPage");
 		EditBioFormulaForm editBioFormulaForm= new EditBioFormulaForm();
-		ModelAndView  mv = new ModelAndView("materials/editFormula","editBioFormulaForm",editBioFormulaForm);
+		ModelAndView  mv = new ModelAndView("materials/associateFormulaAndMaterial","editBioFormulaForm",editBioFormulaForm);
 		return mv;
 	}
 	
