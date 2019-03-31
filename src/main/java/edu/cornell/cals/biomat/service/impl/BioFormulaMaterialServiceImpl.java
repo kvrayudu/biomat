@@ -70,10 +70,11 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 	}
 
 	@Override
-	@Transactional
-	public void addBioFormula(Long selectedFormulaId, Long selectedBioMaterialId) {
+	//@Transactional
+	public void addMaterialToBioFormula(Long selectedFormulaId, Long selectedBioMaterialId, String userName) {
 
 		BioFormulaMaterial bfm = new BioFormulaMaterial();
+		bfm.setAddedBy(userName);
 		bfm.setFormulaId(selectedFormulaId);
 		bfm.setMaterialId(selectedBioMaterialId);
 		bioFormulaMaterialRepository.save(bfm);;

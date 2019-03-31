@@ -75,12 +75,6 @@ public class BioMaterialRestController {
 		}
 	}
 	
-	@GetMapping("deleteBioMaterialFormula")
-	public ResponseEntity<String>  deleteBioMaterialFormula(@RequestParam(value="materialId", required=true) String materialId, @RequestParam(value="formulaId", required=true) String formulaId) throws Exception {
-		logger.info("deleteBioMaterialFormula() --> "+ materialId+" "+formulaId);
-		bioFormulaMaterialService.delete(materialId, formulaId);
-		return ResponseEntity.ok("Success");
-	}
 	
 	@GetMapping("getFormula")
 	public ResponseEntity<String>  getFormulae(@RequestParam(value="q", required=false) String q) throws Exception {

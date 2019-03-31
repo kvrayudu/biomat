@@ -17,7 +17,7 @@
 	  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	  <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
   
-  	<!-- JQUERRY ALERT.  Should donwload and use it in local -->
+  	<!-- JQUERRY ALERT.  Should download and use it in local -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
   

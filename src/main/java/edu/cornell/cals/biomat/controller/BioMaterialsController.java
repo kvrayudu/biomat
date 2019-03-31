@@ -4,9 +4,9 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -63,36 +64,41 @@ public class BioMaterialsController {
 		ModelAndView  mv = new ModelAndView("materials/bioObservedPoints","bioObservedPointsForm",bioObservedPointsForm);
 		return mv;
 	}	
-	/*
-	@PostMapping("bioObservedPoints")
-	public ModelAndView getBioObservedPoints(@RequestParam(value="selectedBioMaterialId", required=true) Long materialId) {
-		logger.info("getBioObservedPoints");
-		BioObservedPointsForm bioObservedPointsForm = new BioObservedPointsForm();
-		List<BioMeasurement> bioMeasurementList = bioMeasurementRepository.getBioMeasurementsByMaterialId(materialId);
-		logger.info("Fetched bioMeasurementList {}", bioMeasurementList.size()  );
-		bioObservedPointsForm.setSelectedBioMaterialId(materialId);
-		bioObservedPointsForm.setBioMeasurementList(bioMeasurementList);
-		ModelAndView  mv = new ModelAndView("materials/bioObservedPoints","bioObservedPointsForm",bioObservedPointsForm);
-		return mv;
-	}	
-*/
 
-	@PostMapping("associateFormulaAndMaterial")
-	public ModelAndView getFormulaeForEdit(@RequestParam(value="selectedFormulaId", required=true) Long selectedFormulaId, @RequestParam(value="formulaName", required=true) String formulaName) {
-		logger.info("getFormulaeForEdit :: selectedFormulaId:"+selectedFormulaId);
+	@PostMapping("updateFormulaMaterialAssociation")
+	public ModelAndView formulaMaterialAssociation(@RequestParam(value="selectedFormulaId") Long selectedFormulaId,
+			@RequestParam(value="selectedBioMaterialId", required=false) Long selectedBioMaterialId,
+			@RequestParam(value="userAction", required=false) String userAction	,
+			@AuthenticationPrincipal Principal principal) {
+		
+		logger.info("userAction {}",userAction);
 		EditBioFormulaForm editBioFormulaForm= new EditBioFormulaForm();
+		BioMaterial bm  = null;
+		if(userAction.equals("addMaterialToFormula")){
+			try {
+				bioFormulaMaterialService.addMaterialToBioFormula(selectedFormulaId, selectedBioMaterialId,principal.getName());
+				//Hibernate is not fetching newly addded material. Not sure why.  This is work around
+				bm  = bioMaterialService.getBioMaterial(selectedBioMaterialId);
+			}
+			catch(Exception ex) {
+				logger.error(ex.getMessage(),ex);
+				editBioFormulaForm.setErrorMessage("Unable to add Material to the Formula.  Has the material already been added?");
+			}
+		}else if(userAction.equals("deleteMaterialFromFormula")){
+			bioFormulaMaterialService.delete(""+selectedBioMaterialId, ""+selectedFormulaId);
+		}
+		
 		editBioFormulaForm.setSelectedFormulaId(selectedFormulaId);
-		editBioFormulaForm.setFormulaName(formulaName);
-		editBioFormulaForm.setBioMaterials(bioFormulaMaterialService.getBioMaterialByFormulaId(selectedFormulaId));
+		List<BioMaterial> bmList = bioFormulaMaterialService.getBioMaterialByFormulaId(selectedFormulaId);
+		if(bm!=null) {
+			//Remove null from the list
+			bmList  =bmList.stream().filter(bioMaterial -> bioMaterial!=null).collect(Collectors.toList());
+			bmList.add(bm);
+		}
+		editBioFormulaForm.setBioMaterials(bmList);
 		ModelAndView  mv = new ModelAndView("materials/associateFormulaAndMaterial","editBioFormulaForm",editBioFormulaForm);
 		return mv;
 	}	
-
-	@PostMapping("addBioMaterialForm")
-	public void addBioMaterialForm(@RequestParam(value="formulaId", required=true) Long selectedFormulaId, @RequestParam(value="selectedBioMaterialId", required=true) Long selectedBioMaterialId, HttpServletResponse response) {
-		bioFormulaMaterialService.addBioFormula(selectedFormulaId, selectedBioMaterialId);
-		response.setStatus(200); 
-	}
 	
 	@GetMapping("associateFormulaAndMaterial")
 	public ModelAndView displayEditFormulaPage() {

@@ -15,6 +15,12 @@ public class EditBioFormulaForm implements Serializable{
 	private String formulaName;
 	private Long selectedFormulaId;
 	List<BioMaterial> bioMaterials;
+	private String userAction;
+	
+	private int selectedMaterialId;
+	private int selectedBioMaterialId;
+	
+	private String errorMessage;
 
 	public List<BioMaterial> getBioMaterials() {
 		return bioMaterials;
@@ -34,11 +40,33 @@ public class EditBioFormulaForm implements Serializable{
 	public void setSelectedFormulaId(Long selectedFormulaId) {
 		this.selectedFormulaId = selectedFormulaId;
 	}
-	@Override
-	public String toString() {
-		return "EditBioFormulaForm [formulaName=" + formulaName + ", selectedFormulaId="
-				+ selectedFormulaId +"bioMaterials "+bioMaterials+"]";
+	
+	public int getSelectedMaterialId() {
+		return selectedMaterialId;
 	}
+	public void setSelectedMaterialId(int selectedMaterialId) {
+		this.selectedMaterialId = selectedMaterialId;
+	}
+	public String getUserAction() {
+		return userAction;
+	}
+	public void setUserAction(String userAction) {
+		this.userAction = userAction;
+	}
+	public int getSelectedBioMaterialId() {
+		return selectedBioMaterialId;
+	}
+	public void setSelectedBioMaterialId(int selectedBioMaterialId) {
+		this.selectedBioMaterialId = selectedBioMaterialId;
+	}
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	
+	
 
 }
   
