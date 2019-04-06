@@ -15,7 +15,10 @@ public class BioCompositionServiceImpl implements BioCompositionService {
 
 	@Autowired
 	BioCompositionRepository bioCompositionRepository; 
-	
+	@Override
+	public BioComposition getBioCompositionByTagName(String tagName) {
+		return bioCompositionRepository.getBioCompositionByTagName(tagName);
+	}
 	@Override
 	public List<String> getNonExistingTagNames(List<String> tagNameList) {
 		List<String> nonExistingTagNames = new ArrayList();

@@ -33,6 +33,7 @@
 						<li><a href="addBioFormula">Add Formula</a></li>
 						<li><li><a href="associateFormulaAndMaterial">Formula Material Association</a></li></li>
 						<li><a href="addBioMaterial">Add Bio-Material</a></li>
+						<li><a href="addBioVariable">Add Bio-Variable</a></li>
 						<li><a href="addPointInput">Add Data Point</a></li>
 				   </ul>
 				</li>

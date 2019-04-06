@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.cornell.cals.biomat.dao.BioComposition;
 import edu.cornell.cals.biomat.dao.BioVariable;
+import edu.cornell.cals.biomat.model.variable.BioVariableAddForm;
 import edu.cornell.cals.biomat.model.variable.BioVariableSearchForm;
 import edu.cornell.cals.biomat.model.variable.BioVariableSearchResultsForm;
+import edu.cornell.cals.biomat.service.BioCompositionService;
 import edu.cornell.cals.biomat.service.BioVariableService;
 
 @Controller
@@ -37,6 +40,9 @@ public class BioVariableController {
 	
 	@Autowired
 	protected BioVariableService bioVariableService;
+	
+	@Autowired
+	protected BioCompositionService bioCompositionService;
 	
 	@GetMapping("updateBioVariable")
 	public ModelAndView displayUpdateBioVariablePage(@RequestParam(value="variableId", required=true) Integer variableId) {
@@ -69,6 +75,70 @@ public class BioVariableController {
 	}	
 
 
+	
+	@GetMapping("addBioVariable")
+	public ModelAndView showAddBioVariablePage() {
+		logger.info("GET addBioVariable");
+		BioVariableAddForm bvaf = new BioVariableAddForm();  
+		ModelAndView mv = new ModelAndView("variables/addBioVariable","bioVariableAddForm",bvaf);
+		return mv;
+	}	
+
+	@PostMapping("addBioVariable")
+	public ModelAndView addBioVariablePage(HttpServletRequest request, @Valid @ModelAttribute BioVariableAddForm bioVariableAddForm, BindingResult bindingResult,@AuthenticationPrincipal Principal principal) {
+		logger.info("POST addBioVariable");
+		if(bindingResult.hasErrors()) {
+			logger.info("Error in Form Submission.  NOT Updating Data. ");
+			return new ModelAndView("variables/addBioVariable","bioVariableAddForm",bioVariableAddForm);
+			
+		}else if(principal ==null) {
+			throw new RuntimeException("User is not Authorized to update Variables");
+		}
+		else { 
+			BioVariable bv = bioVariableService.getBioVariableBySymbol(bioVariableAddForm.getSymbol());
+			if(bv!=null && bv.getId()!=null) {
+				logger.info("Error in Form Submission. Duplicate Symbol. NOT Updating Data. ");
+				bioVariableAddForm.setMessage("Error in Adding bioVariable. Symbol is already used for another Variable ");
+				bindingResult.rejectValue("symbol","error.symbol", "This Symbol is already taken");
+				return new ModelAndView("variables/addBioVariable","bioVariableAddForm",bioVariableAddForm);
+			}
+			
+			BioComposition bc = bioCompositionService.getBioCompositionByTagName(bioVariableAddForm.getSymbol());
+			
+			if(bc!=null && bc.getId()!=null) {
+				logger.info("Error in Form Submission. This Symbol is used in a Composition . NOT Updating Data. ");
+				bioVariableAddForm.setMessage("Error in Adding bioVariable. Symbol is already used for another Composition");
+				bindingResult.rejectValue("symbol","error.symbol", "This Symbol is used in a Material composition");
+				return new ModelAndView("variables/addBioVariable","bioVariableAddForm",bioVariableAddForm);
+			}
+			
+		}
+		
+		
+		
+		try {
+			BioVariable bioVariable = new BioVariable();
+			bioVariable.setName(bioVariableAddForm.getName());
+			bioVariable.setDescription(bioVariableAddForm.getDescription());
+			bioVariable.setSymbol(bioVariableAddForm.getSymbol());
+			bioVariable.setUom(bioVariableAddForm.getUom());
+			bioVariable.setAddedBy(principal.getName());
+			bioVariable = bioVariableService.updateBioVariable(bioVariable,principal.getName());
+			bioVariableAddForm.setId(bioVariable.getId());
+			bioVariableAddForm.setAddedBy(principal.getName());
+			bioVariableAddForm.setMessage("Successfully Added New BioVariable");
+			logger.info("bioVariableService.updateBioVariable {}", bioVariable);		
+			return  new ModelAndView("variables/addBioVariable","bioVariableAddForm",bioVariableAddForm);
+			
+			
+		}
+		catch(Exception ex) {
+			logger.error("Error in adding variable: ",ex );
+			bioVariableAddForm.setMessage("Error in Adding bioVariable. Is symbol for your variable unique?");
+			return new ModelAndView("variables/addBioVariable","bioVariableAddForm",bioVariableAddForm);
+		}
+			
+	}
 	
 	
 	@GetMapping("searchBioVariables")

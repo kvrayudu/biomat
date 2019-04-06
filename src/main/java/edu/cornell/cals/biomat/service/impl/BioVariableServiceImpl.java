@@ -20,6 +20,14 @@ public class BioVariableServiceImpl implements BioVariableService{
 	BioVariableRepository bioVariableRepository;
 
 	@Override
+	public BioVariable getBioVariableBySymbol(String symbol) {
+		BioVariable bv =bioVariableRepository.getVariableBySymbol(symbol);
+		return bv;
+	}
+
+	
+	
+	@Override
 	public BioVariable getBioVariable(Integer id) {
 		BioVariable bv = bioVariableRepository.getOne(id);
 		return bv;
@@ -33,6 +41,7 @@ public class BioVariableServiceImpl implements BioVariableService{
 
 	@Override
 	public BioVariable updateBioVariable(BioVariable bioVariable, String userId) {
+		bioVariable.setAddedBy(userId);
 		bioVariable.setUpdatedBy(userId);
 		BioVariable bv =bioVariableRepository.save(bioVariable);
 		return bv;

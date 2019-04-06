@@ -13,4 +13,5 @@ public interface BioVariableService {
 	BioVariable updateBioVariable(BioVariable bioVariable,String userId);
 	Map<String,Object> getBioVariable(Pageable pageable,String name);	
 	List<String> getNonExistingVariables(List<String> variableList);
+	BioVariable getBioVariableBySymbol(String symbol);
 }
