@@ -51,11 +51,9 @@
 			     		<button type="button" class="btn btn-default">
 		      				<span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#id_${bioFormula.id}"></span> Details
 		    			</button>
-		    			<!-- 
-		    			<a href="bioFormulaDetails?formulaId=${bioFormula.id}" role="button" class="btn btn-default ">
+		    			<a href="editBioFormula?formulaId=${bioFormula.id}" role="button" class="btn btn-default ">
 			    	  		<span class="glyphicon glyphicon-edit"></span> Edit
 			     		</a>
-		    			 -->
 		     		</td>
    					
   				</tr>	
@@ -93,20 +91,16 @@
 						  <td>Formula</td>
 						  <td>${bioFormula.formula}</td>
 					  </TR>	  
+					  <TR>
+						  <td>Variable (Y-Axis)</td>
+						  <td>${bioFormula.bioVariable.symbol}&nbsp;-&nbsp;${bioFormula.bioVariable.name}</td>
+					  </TR>	  
 					  
 					   <TR>
 						  <td>Desc</td>
 						  <td>${bioFormula.formulaDesc}</td>
 					  </TR>	  
 					  
-					   <TR>
-						  <td>Min Range</td>
-						  <td>${bioFormula.minRange}</td>
-					  </TR>	  
-					   <TR>
-						  <td>Max Range</td>
-						  <td>${bioFormula.maxRange}</td>
-					  </TR>	  
 					   <TR>
 						  <td>Citation</td>
 						  <td>${bioFormula.citation}</td>

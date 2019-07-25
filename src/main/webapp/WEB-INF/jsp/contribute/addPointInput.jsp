@@ -15,7 +15,7 @@
 			<h5 class="text-success">${successMessage}</h5>
 			
 			<p>&nbsp;</p>
-			<h3 class="bg-info text-info">Bio-Material ... </h3>
+			<h3 class="bg-info text-info">Bio-Materials ... </h3>
 			
 			
 			

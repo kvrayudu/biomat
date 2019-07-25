@@ -13,20 +13,14 @@ import edu.cornell.cals.biomat.dao.BioVariable;
 public class BioFormulaForm implements  Serializable{
 	private static final long serialVersionUID = -3674920855102623820L;
 	
+	private Long id;
 	@NotNull
 	@NotEmpty
 	private String name;
 	@NotNull
 	@NotEmpty
 	private String formula;
-	@NotNull
-	@DecimalMin(value = "-9999.9", inclusive = true)
-	@DecimalMax(value = "9999.9", inclusive = true)
-	private Double minRange;
-	@NotNull
-	@DecimalMin(value = "-9999.9", inclusive = true)
-	@DecimalMax(value = "9999.9", inclusive = true)
-	private Double maxRange;
+
 	@NotNull
 	@NotEmpty
 	private String citation;
@@ -43,13 +37,13 @@ public class BioFormulaForm implements  Serializable{
 	List<BioVariable> bioVariables;
 	
 	
-	private boolean validated;
 	
-	public boolean isValidated() {
-		return validated;
+	
+	public Long getId() {
+		return id;
 	}
-	public void setValidated(boolean validated) {
-		this.validated = validated;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -63,18 +57,6 @@ public class BioFormulaForm implements  Serializable{
 	}
 	public void setFormula(String formula) {
 		this.formula = formula;
-	}
-	public Double getMinRange() {
-		return minRange;
-	}
-	public void setMinRange(Double minRange) {
-		this.minRange = minRange;
-	}
-	public Double getMaxRange() {
-		return maxRange;
-	}
-	public void setMaxRange(Double maxRange) {
-		this.maxRange = maxRange;
 	}
 	public String getCitation() {
 		return citation;

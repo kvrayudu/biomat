@@ -1,6 +1,7 @@
 package edu.cornell.cals.biomat.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import edu.cornell.cals.biomat.service.BioFormulaMaterialService;
 import edu.cornell.cals.biomat.service.BioFormulaService;
 import edu.cornell.cals.biomat.service.BioMaterialCompositionService;
 import edu.cornell.cals.biomat.service.BioMaterialService;
+import edu.cornell.cals.biomat.service.BioObservedPointService;
 import edu.cornell.cals.biomat.service.BioVariableService;
 
 @RestController
@@ -47,20 +49,24 @@ public class BioMaterialRestController {
 	
 	@Autowired
 	protected BioFormulaService bioFormulaService;
-
-
 	
+	@Autowired
+	protected BioObservedPointService bioObservedPointService;
+
+
 	@PostMapping("getCalculatedDataPoints")
 	public ResponseEntity<String>  getCalculatedDataPoints(@ModelAttribute BioMaterialGraphForm bioMaterialGraphForm) throws Exception {
 		logger.info("getCalculatedDataPoints() {} {} {} ", bioMaterialGraphForm);
 		
 		try {
-			Map<String,List<Double>> resultMap = bioFormulaService.getCalculatedDataPoints(
+			Map resultMap = bioFormulaService.getCalculatedDataPoints(
 					bioMaterialGraphForm.getSelectedBioFormulaId().longValue(),
 					bioMaterialGraphForm.getBioMaterialCompositionModelList(),
 					bioMaterialGraphForm.getSelectedDependentBioVariableId(),
 					bioMaterialGraphForm.getMinRange(),bioMaterialGraphForm.getMaxRange());
-			
+			Map observedPointsMap  = bioObservedPointService.getBioObservedPointsMap( bioMaterialGraphForm.getSelectedDependentBioVariableId(), bioMaterialGraphForm.getSelectedBioVariableId(),bioMaterialGraphForm.getSelectedBioMaterialId());
+			resultMap.put("observedPointsX", observedPointsMap.get("OBSERVED_POINTS_X"));
+			resultMap.put("observedPointsY", observedPointsMap.get("OBSERVED_POINTS_Y"));
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 			String jsonVariablesArray = mapper.writeValueAsString(resultMap );

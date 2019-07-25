@@ -10,7 +10,7 @@
 	<div id="menubar"> <%@ include file = "./../menu_bar.jsp" %></div>
 	<h2 class="text-info">Point Input Contributions</h2>
 	
-	
+	<!-- Obselete Page-->
 	
 	
 	<!--  PAGER START -->

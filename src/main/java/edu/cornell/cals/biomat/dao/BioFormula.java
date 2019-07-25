@@ -40,8 +40,6 @@ public class BioFormula implements Serializable{
 	
 	private Integer variableId;
 	 
-	private Double minRange;
-	private Double maxRange;
 	
 	private String formulaDesc;
 	
@@ -136,28 +134,6 @@ public class BioFormula implements Serializable{
 
 
 
-
-	public Double getMinRange() {
-		return minRange;
-	}
-
-
-
-	public void setMinRange(Double minRange) {
-		this.minRange = minRange;
-	}
-
-
-
-	public Double getMaxRange() {
-		return maxRange;
-	}
-
-
-
-	public void setMaxRange(Double maxRange) {
-		this.maxRange = maxRange;
-	}
 
 
 

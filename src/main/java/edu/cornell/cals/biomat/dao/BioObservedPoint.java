@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,8 +25,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-//@Entity
-//@Table(name="bio_observed_point")
+@Entity
+@Table(name="bio_observed_point")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true)
 @EntityListeners(AuditingEntityListener.class)
 public class BioObservedPoint implements Serializable{
@@ -34,14 +36,23 @@ public class BioObservedPoint implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
 	private Long materialId;
-	private int variableId;
-	private int groupId;
-	private Double measuredValue;
+	@NotNull
+	private int xVariableId;
+	@NotNull
+	private int yVariableId;
+	@NotNull
+	private Double xObservedValue;
+	@NotNull
+	private Double yObservedValue;
+	@NotNull
 	private Double errorValue;
-	
+	@NotEmpty
 	private String citation;
+	@NotEmpty
 	private String doi;
+	
 	private String isApproved;
 	
 	
@@ -56,10 +67,17 @@ public class BioObservedPoint implements Serializable{
     private BioMaterial bioMaterial;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "variableId", nullable = false, insertable=false, updatable=false)
+	@JoinColumn(name = "xVariableId", nullable = false, insertable=false, updatable=false)
     @JsonIgnore
-    private BioVariable bioVariable;
+    private BioVariable xBioVariable;
 
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "yVariableId", nullable = false, insertable=false, updatable=false)
+    @JsonIgnore
+    private BioVariable yBioVariable;
+
+	
 	
 	@Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -87,28 +105,36 @@ public class BioObservedPoint implements Serializable{
 		this.materialId = materialId;
 	}
 
-	public int getVariableId() {
-		return variableId;
+	public int getxVariableId() {
+		return xVariableId;
 	}
 
-	public void setVariableId(int variableId) {
-		this.variableId = variableId;
+	public void setxVariableId(int xVariableId) {
+		this.xVariableId = xVariableId;
 	}
 
-	public int getGroupId() {
-		return groupId;
+	public int getyVariableId() {
+		return yVariableId;
 	}
 
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
+	public void setyVariableId(int yVariableId) {
+		this.yVariableId = yVariableId;
 	}
 
-	public Double getMeasuredValue() {
-		return measuredValue;
+	public Double getxObservedValue() {
+		return xObservedValue;
 	}
 
-	public void setMeasuredValue(Double measuredValue) {
-		this.measuredValue = measuredValue;
+	public void setxObservedValue(Double xObservedValue) {
+		this.xObservedValue = xObservedValue;
+	}
+
+	public Double getyObservedValue() {
+		return yObservedValue;
+	}
+
+	public void setyObservedValue(Double yObservedValue) {
+		this.yObservedValue = yObservedValue;
 	}
 
 	public Double getErrorValue() {
@@ -135,7 +161,6 @@ public class BioObservedPoint implements Serializable{
 		this.doi = doi;
 	}
 
-
 	public String getIsApproved() {
 		return isApproved;
 	}
@@ -160,6 +185,30 @@ public class BioObservedPoint implements Serializable{
 		this.updatedBy = updatedBy;
 	}
 
+	public BioMaterial getBioMaterial() {
+		return bioMaterial;
+	}
+
+	public void setBioMaterial(BioMaterial bioMaterial) {
+		this.bioMaterial = bioMaterial;
+	}
+
+	public BioVariable getxBioVariable() {
+		return xBioVariable;
+	}
+
+	public void setxBioVariable(BioVariable xBioVariable) {
+		this.xBioVariable = xBioVariable;
+	}
+
+	public BioVariable getyBioVariable() {
+		return yBioVariable;
+	}
+
+	public void setyBioVariable(BioVariable yBioVariable) {
+		this.yBioVariable = yBioVariable;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -176,29 +225,14 @@ public class BioObservedPoint implements Serializable{
 		this.updatedAt = updatedAt;
 	}
 
-	public BioMaterial getBioMaterial() {
-		return bioMaterial;
-	}
-
-	public void setBioMaterial(BioMaterial bioMaterial) {
-		this.bioMaterial = bioMaterial;
-	}
-
-	public BioVariable getBioVariable() {
-		return bioVariable;
-	}
-
-	public void setBioVariable(BioVariable bioVariable) {
-		this.bioVariable = bioVariable;
-	}
-
 	@Override
 	public String toString() {
-		return "BioMeasurement [id=" + id + ", materialId=" + materialId + ", variableId=" + variableId + ", groupId="
-				+ groupId + ", measuredValue=" + measuredValue + ", errorValue=" + errorValue + ", citation=" + citation
-				+ ", doi=" + doi + ", isApproved=" + isApproved + ", addedBy=" + addedBy + ", updatedBy=" + updatedBy
-				+ ", bioMaterial=" + bioMaterial + ", bioVariable=" + bioVariable + ", createdAt=" + createdAt
-				+ ", updatedAt=" + updatedAt + "]";
+		return "BioObservedPoint [id=" + id + ", materialId=" + materialId + ", xVariableId=" + xVariableId
+				+ ", yVariableId=" + yVariableId + ", xObservedValue=" + xObservedValue + ", yObservedValue="
+				+ yObservedValue + ", errorValue=" + errorValue + ", citation=" + citation + ", doi=" + doi
+				+ ", isApproved=" + isApproved + ", addedBy=" + addedBy + ", updatedBy=" + updatedBy + ", bioMaterial="
+				+ bioMaterial + ", xBioVariable=" + xBioVariable + ", yBioVariable=" + yBioVariable + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
 

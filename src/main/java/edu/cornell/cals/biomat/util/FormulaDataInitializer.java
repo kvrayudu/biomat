@@ -48,15 +48,6 @@ public class FormulaDataInitializer {
 			bioFormula.setVariableId(Integer.parseInt(formula.getFormulaVariable()+""));
 			//bioFormula.setDependentVariableId(Integer.parseInt(formula.getDependentVariable()+""));
 			
-			if(formula.getDependentVariableLowRange()==null) 
-				bioFormula.setMinRange(0.0);
-			else
-				bioFormula.setMinRange(Double.parseDouble(""+formula.getDependentVariableLowRange()));
-			
-			if(formula.getDependentVariableHighRange()==null)
-				bioFormula.setMaxRange(0.0);
-			else
-				bioFormula.setMaxRange(Double.parseDouble(""+formula.getDependentVariableHighRange()));
 			
 			bioFormula.setCitation(formula.getCitations());
 			bioFormula.setDoi(formula.getDoi());

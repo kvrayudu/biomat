@@ -217,65 +217,83 @@ $(document).ready(function () {
 		$.post("getCalculatedDataPoints", formData,function( response ){
 			var jsonValue = JSON.parse(response);
 			
-			var xAxisArray		= jsonValue.data.dataPointsX;
-			var yAxisArray		= jsonValue.data.dataPointsY;
-			var xObservedPoints		= jsonValue.data.observedPointsX;
-			var yObservedPoints		= jsonValue.data.observedPointsY;
-			var dataSet1 = [];
-			for(var i = 0; i < xAxisArray.length; i++) {
-				dataSet1.push(
-				        {
-				            x: xAxisArray[i],
-				            y: yAxisArray[i]
-				        }
-				   );
-				}
-			var dataSet2 = [];
-			for(var i = 0; i < xObservedPoints.length; i++) {
-				dataSet2.push(
-				        {
-				            x: xObservedPoints[i],
-				            y: yObservedPoints[i]
-				        }
-				   );
-				}
-			
+			if(jsonValue.msg.length > 5){
+				$( "#errorMessage" ).text(jsonValue.msg);
+				
+				var dataArrayEmpty;
+				var popCanvas = $("#popChart");
+				var popCanvas = document.getElementById("popChart");
+				var popCanvas = document.getElementById("popChart").getContext("2d");
+				var barChart = new Chart(popCanvas, {
+					  type: 'line',
+					  data: {
+					    labels: xAxisLabelsArray,
+					    datasets: [{
+					      label: labelText,
+					      data: dataArrayEmpty,
+					      backgroundColor: [
+				                'rgba(0, 0, 0, 0)',
+				                'rgba(0, 0, 0,0)',
+				                'rgba(255, 206, 86, 0.2)',
+				                'rgba(75, 192, 192, 0.2)',
+				                'rgba(153, 102, 255, 0.2)',
+				                'rgba(255, 159, 64, 0.2)'
+				            ],
+				            borderColor: [
+				                'rgba(255, 99, 132, 1)',
+				                'rgba(54, 162, 235, 1)',
+				                'rgba(255, 206, 86, 1)',
+				                'rgba(75, 192, 192, 1)',
+				                'rgba(153, 102, 255, 1)',
+				                'rgba(255, 159, 64, 1)'
+				            ],
+				            borderWidth: 1
+					      
+					    }]
+					  },
+					  options: {
+			                responsive: false
+			            }
+					}); //END var barChart
 
+				
+				
+				return;
+			}
 			
-			console.log( "dataSet1 " + dataSet1);
-			var observedPointsArray = [{ x: -8, y: 3 }, { x: 2, y: 8 }, { x: 3, y: 9 }];
-			
-			//console.log( "dataArray " + dataArray );
+			var dataArray=jsonValue.data.dataPointsY;
+			console.log( response );
+			console.log( "DataArrayY " + dataArray );
+			var xAxisLabelsArray		= jsonValue.data.dataPointsX;
+			console.log( "DataArrayX " + xAxisLabelsArray );
 			$( "#errorMessage" ).text("");
 			var popCanvas = $("#popChart");
 			var popCanvas = document.getElementById("popChart");
 			var popCanvas = document.getElementById("popChart").getContext("2d");
 			var barChart = new Chart(popCanvas, {
-				  type: 'scatter',
+				  type: 'line',
 				  data: {
+				    labels: xAxisLabelsArray,
 				    datasets: [{
-				      label: 'Predicted Line',
-				      data : dataSet1,
-				      borderColor: 'red',
-                      borderWidth: 1,
-                      pointBackgroundColor:'red',
-                      pointBorderColor: 'blue',
-                      pointRadius: 3,
-                      pointHoverRadius: 3,
-                      fill: false,
-                      tension: 0,
-                      showLine: true,
-		              borderWidth: 1
-				    },{
-
-                        label: 'Observed Points',
-                        data : dataSet2,
-                        type : 'scatter',
-                        pointBackgroundColor: 'blue',
-                        pointBorderColor: 'orange',
-                        pointRadius: 5,
-                        pointHoverRadius: 5,
-                        showLine: false
+				      label: labelText,
+				      data: dataArray,
+				      backgroundColor: [
+			                'rgba(0, 0, 0, 0)',
+			                'rgba(0, 0, 0,0)',
+			                'rgba(255, 206, 86, 0.2)',
+			                'rgba(75, 192, 192, 0.2)',
+			                'rgba(153, 102, 255, 0.2)',
+			                'rgba(255, 159, 64, 0.2)'
+			            ],
+			            borderColor: [
+			                'rgba(255, 99, 132, 1)',
+			                'rgba(54, 162, 235, 1)',
+			                'rgba(255, 206, 86, 1)',
+			                'rgba(75, 192, 192, 1)',
+			                'rgba(153, 102, 255, 1)',
+			                'rgba(255, 159, 64, 1)'
+			            ],
+			            borderWidth: 1
 				    }]
 				  },
 				  options: {

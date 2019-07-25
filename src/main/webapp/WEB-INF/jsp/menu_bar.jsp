@@ -11,7 +11,6 @@
 		
 	<li><li><a href="graphBioMaterial">Chart Formula</a></li></li>
 	
-	<li><li><a href="bioObservedPoints">Observed Points</a></li></li>
 
 	
 	<c:choose>
@@ -31,10 +30,11 @@
 					<a class="dropdown-toggle" data-toggle="dropdown">Contribute Data<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="addBioFormula">Add Formula</a></li>
+						<li><a href="addObservedPoint">Add Observed Points</a></li>
 						<li><li><a href="associateFormulaAndMaterial">Formula Material Association</a></li></li>
 						<li><a href="addBioMaterial">Add Bio-Material</a></li>
 						<li><a href="addBioVariable">Add Bio-Variable</a></li>
-						<li><a href="addPointInput">Add Data Point</a></li>
+
 				   </ul>
 				</li>
 				

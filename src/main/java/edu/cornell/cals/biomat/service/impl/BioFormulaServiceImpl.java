@@ -1,7 +1,6 @@
 package edu.cornell.cals.biomat.service.impl;
 
 import java.util.ArrayList;
-import edu.cornell.cals.biomat.repository.FormulaRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,8 @@ import edu.cornell.cals.biomat.model.BioMaterialCompositionModel;
 import edu.cornell.cals.biomat.model.formula.BioFormulaForm;
 import edu.cornell.cals.biomat.repository.BioCompositionRepository;
 import edu.cornell.cals.biomat.repository.BioFormulaRepository;
+import edu.cornell.cals.biomat.repository.BioObservedPointRepository;
+import edu.cornell.cals.biomat.repository.FormulaRepository;
 import edu.cornell.cals.biomat.service.BioCompositionService;
 import edu.cornell.cals.biomat.service.BioFormulaService;
 import edu.cornell.cals.biomat.service.BioVariableService;
@@ -51,6 +52,8 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 	@Autowired
 	FormulaRepository formulaRepository;
 	
+	@Autowired
+	BioObservedPointRepository bioObservedPointRepository;
 	
 	@Query(value="SELECT bf FROM BioFormula bf where bf.name like :search OR bf.formulaDesc like :search")
     public List<BioFormula> getBioFormulaByNameOrDesc(String search){
@@ -195,13 +198,7 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 				valueMap.put(model.getNutrientSymbol(),Double.parseDouble(model.getUserValue()));
 			}
 		}
-
 		
-//		List<Map<String,Object>> variableList= ExpressionEvaluator.getVariables(bf.getFormula());
-	//	if(variableList.size()>1) {
-		//	throw new RuntimeException("Can't calculate if more than one variable present");
-		//}
-		//String variable = (String)variableList.get(0).get(ExpressionEvaluator.KEY_VARIABLE);
 		
 		int increment = (maxRange - minRange)/10;
 		for(int i=0;i<=10;i++) {
@@ -216,6 +213,9 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 		Map<String,List<Double>> resultMap = new HashMap<String,List<Double>>();
 		resultMap.put(DATA_POINTS_X, dataPointsX);
 		resultMap.put(DATA_POINTS_Y , dataPointsY);
+
+		
+		
 		return resultMap;
 	}
 	
@@ -235,11 +235,10 @@ public class BioFormulaServiceImpl implements BioFormulaService{
 	@Override
 	public BioFormula updateBioMaterialFormula(BioFormulaForm bioFormulaForm, String userId) {
 		BioFormula bioFormula = new BioFormula();
+		bioFormula.setId(bioFormulaForm.getId());
 		bioFormula.setName(bioFormulaForm.getName().toUpperCase());
 		bioFormula.setFormula(bioFormulaForm.getFormula());
 		bioFormula.setVariableId(bioFormulaForm.getVariableId());
-		bioFormula.setMinRange(bioFormulaForm.getMinRange());
-		bioFormula.setMaxRange(bioFormulaForm.getMaxRange());
 		bioFormula.setCitation(bioFormulaForm.getCitation());
 		bioFormula.setDoi(bioFormulaForm.getDoi());
 		bioFormula.setFormulaDesc(bioFormulaForm.getFormulaDesc());

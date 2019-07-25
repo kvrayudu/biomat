@@ -6,21 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.cornell.cals.biomat.repository.BioMaterialRepository;
-import edu.cornell.cals.biomat.repository.BioMeasurementRepository;
 import edu.cornell.cals.biomat.repository.BioVariableRepository;
-import edu.cornell.cals.biomat.repository.MeasurementsRepository;
+
 
 
 @Service
 public class MeasurementsDataInitializer {
-	@Autowired
-	MeasurementsRepository measurementsRepository;
-	
-	//@Autowired
-	//BioMeasurementRepository bioMeasurementRepository;
-	
-	@Autowired
-	BioMaterialRepository bioMaterialRepository;
 	
 	@Autowired
 	BioVariableRepository bioVariableRepository;

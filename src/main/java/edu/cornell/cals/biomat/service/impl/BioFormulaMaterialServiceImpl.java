@@ -112,7 +112,9 @@ public class BioFormulaMaterialServiceImpl implements BioFormulaMaterialService{
 			}
 		}
 		for(BioFormula bioFormula:bioFormulaList) {
-			variables.addAll(ExpressionEvaluator.getVariableList(bioFormulaService.flattenFormula(bioFormula.getName())));
+
+			variables.addAll(ExpressionEvaluator.getVariableList(bioFormulaService.flattenFormula(bioFormula.getFormula())));
+			//variables.addAll(ExpressionEvaluator.getVariableList(bioFormulaService.flattenFormula(bioFormula.getName())));
 		}
 			
 		//Filter duplicates
