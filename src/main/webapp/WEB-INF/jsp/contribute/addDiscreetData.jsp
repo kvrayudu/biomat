@@ -28,11 +28,30 @@
 						<form:errors  class="text-danger"  path="materialId" />
 					</div>
 				</div>	
-
+				<div class="form-group row">
+					<div class="col-sm-2">
+						<form:label  class="text-info" path="authorName" >Author Name: </form:label>
+					</div>
+					<div class="col-sm-10">
+						<form:input class="form-control" id="authorName" path="authorName"   placeholder="Author Name"/>
+						<form:errors  class="text-danger"  path="authorName" />
+					</div>
+				</div>	
+				
+				<div class="form-group row">
+					<div class="col-sm-2">
+						<form:label  class="text-info" path="year" >Publish Year: </form:label>
+					</div>
+					<div class="col-sm-10">
+						<form:input class="form-control" id="year" path="year"   placeholder="Publish Year"/>
+						<form:errors  class="text-danger"  path="year" />
+					</div>
+				</div>	
+				
 				   <p>&nbsp;</p>
 			        <div class="form-group row">
 		  				<div class="col-sm-offset-4 col-sm-2">
-		     				<button  type="submit" class="btn btn-info btn-default">Save Observed Point</button>
+		     				<button  type="submit" class="btn btn-info btn-default">Save Discreet DataSet</button>
 		   				</div>
 		    		</div>
 		    		</c:when>

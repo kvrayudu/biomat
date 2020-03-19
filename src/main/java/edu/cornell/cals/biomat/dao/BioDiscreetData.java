@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -58,7 +57,6 @@ public class BioDiscreetData implements Serializable{
 	private Double x10_value;
 	
 	
-	@NotEmpty
 	private String author_name;
 	private String year;
 	
@@ -107,6 +105,13 @@ public class BioDiscreetData implements Serializable{
 
 	public void setRelationId(Long relationId) {
 		this.relationId = relationId;
+	}
+	public String getAuthorName() {
+		return author_name;
+	}
+
+	public void setAuthorName(String author_name) {
+		this.author_name = author_name;
 	}
 	
 	public Double getY_value() {
@@ -197,13 +202,7 @@ public class BioDiscreetData implements Serializable{
 		this.x10_value = x10_value;
 	}
 
-	public String getAuthorname() {
-		return author_name;
-	}
-
-	public void setAuthorname(String author_name) {
-		this.author_name = author_name;
-	}
+	
 
 	public String getYear() {
 		return year;
