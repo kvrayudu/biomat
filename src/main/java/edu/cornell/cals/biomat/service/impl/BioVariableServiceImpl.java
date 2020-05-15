@@ -24,12 +24,10 @@ public class BioVariableServiceImpl implements BioVariableService{
 		BioVariable bv =bioVariableRepository.getVariableBySymbol(symbol);
 		return bv;
 	}
-
-	
 	
 	@Override
 	public BioVariable getBioVariable(Integer id) {
-		BioVariable bv = bioVariableRepository.getOne(id);
+		BioVariable bv = bioVariableRepository.getVariableById(id);
 		return bv;
 	}
 

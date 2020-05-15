@@ -10,13 +10,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import edu.cornell.cals.biomat.dao.BioDiscreetData;
+import edu.cornell.cals.biomat.dao.BioFormulaRange;
 import edu.cornell.cals.biomat.dao.BioVariable;
 
 
-
-///to be modified the query
 @Repository
 public interface BioDiscreetDataRepository extends JpaRepository<BioDiscreetData, Integer> {
-	@Query(value="SELECT bop FROM BioObservedPoint bop where bop.xVariableId= :xVariableId and bop.yVariableId= :yVariableId and bop.materialId= :materialId")
-    List<BioDiscreetData> getBioDiscreetData(@Param("xVariableId") int xVariableId,@Param("yVariableId") int yVariableId,@Param("materialId") long materialId);
+	@Query(value="SELECT bm FROM BioDiscreetData bm")
+	List<BioDiscreetData> getAllBioDiscreetData();
+	
+	@Query(value="SELECT bd FROM BioDiscreetData bd where bd.id=:id")
+	BioDiscreetData getBioDiscreetDataById(Long id);
+	
 }

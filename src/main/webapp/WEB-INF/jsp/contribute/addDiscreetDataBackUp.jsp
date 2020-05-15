@@ -3,7 +3,7 @@
 
 <%@ include file = "./../header.jsp" %>
 
- <script src="js/bioDiscreetData.dynamic.select.list.js"></script>
+ <script src="js/biomaterial.dynamic.select.list.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
  <script src="js/biomaterial.dynamic.measurement.input.js"></script>
 <body>
@@ -19,8 +19,7 @@
 			
 			<p>&nbsp;</p>
 			
-			<form:form  action="/addDiscreetData"  method="post" enctype="multipart/form-data" modelAttribute="bioDiscreetDataForm" >
-			<form:hidden  value= "${bioDiscreetDataForm.id}" path="id"/>
+			<form:form  action="/addDiscreetData"  method="post" enctype="multipart/form-data" modelAttribute="bioDiscreetData" >
 			<c:choose>
 				<c:when test="${empty successMessage}">
 				<div class="form-group row">
@@ -28,16 +27,16 @@
 						<form:label  class="text-info" path="materialId" >Select Material: </form:label>
 					</div>
 					<div class="col-sm-10">
-						<form:input class="form-control" id="materialId" path="materialId" value ="${bioDiscreetDataForm.materialId}"   placeholder="Please enter bio-material name"/>
+						<form:input class="form-control" id="materialId" path="materialId"   placeholder="Please enter bio-material name"/>
 						<form:errors  class="text-danger"  path="materialId" />
 					</div>
 				</div>	
 				<div class="form-group row">
 					<div class="col-sm-2">
-						<form:label  class="text-info" path="authorName">Author Name: </form:label>
+						<form:label  class="text-info" path="authorName" >Author Name: </form:label>
 					</div>
 					<div class="col-sm-10">
-						<form:input class="form-control" id="authorName" path="authorName" value="${bioDiscreetDataForm.authorName}"  placeholder="Author Name"/>
+						<form:input class="form-control" id="authorName" path="authorName"   placeholder="Author Name"/>
 						<form:errors  class="text-danger"  path="authorName" />
 					</div>
 				</div>	
@@ -47,7 +46,7 @@
 						<form:label  class="text-info" path="year" >Publish Year: </form:label>
 					</div>
 					<div class="col-sm-10">
-						<form:input class="form-control" id="year" path="year" value="${bioDiscreetDataForm.year}"  placeholder="Publish Year"/>
+						<form:input class="form-control" id="year" path="year"   placeholder="Publish Year"/>
 						<form:errors  class="text-danger"  path="year" />
 					</div>
 				</div>	
@@ -57,7 +56,7 @@
 						<form:label  class="text-info" path="yVariableId" >Select Y-Axis Variable: </form:label>
 					</div>
 					<div class="col-sm-10">
-						<form:select class="form-control" id="yVariableId" value="${bioDiscreetDataForm.yVariableId}" path="yVariableId"/>
+						<form:select class="form-control" id="yVariableId" path="yVariableId"/>
 						<form:errors  class="text-danger"  path="yVariableId" />
 					</div>
 				</div>	
@@ -68,31 +67,19 @@
 				
 				<h4 class="text-info">Upload Excel File (.xls,.xlsx) Note : First column should be the y Variable</h4>
 					
-				<div class="form-group row">
-					<div class="col-sm-3">
-						<input type="file" value = "Choose File" name="file" id = "file" accept=".xls,.xlsx" value = "${bioDiscreetDataForm.file}"/> 
+					<div class="form-group row">
+						<div class="col-sm-3">
+							<input type="file" name="file" accept=".xls,.xlsx" /> 
+						</div>
 					</div>
-				</div>
 				
-				<div class="form-group row">
-					<div class="col-sm-3">
-						<input type="text" id="upload-file" name="upload-file" value="Upload File" />
-		
+					<div class="form-group row">
+						<div class="col-sm-3">
+							
+							<input type="submit" value="Upload file" />
+						</div>
 					</div>
-				</div>
 					
-				<div class="form-group" id="execelContent">
-					<!-- Values are added by JQuerry -->
-				</div>
-				
-				
-				
-				<div class="form-group row">
-		  				<div class="col-sm-offset-4 col-sm-2">
-		     				<button  type="submit" class="btn btn-info btn-default">Save Discreet Dataset</button>
-		   				</div>
-		    		</div>
-				
 				
 		    	</c:when>
 		   		<c:otherwise>
@@ -100,7 +87,45 @@
 		    	</c:otherwise>
 			</c:choose>
 			</form:form>
+    		
+    
+				
+    		
+    		
+			<form action="/addDiscreetData" method="get">
+				
+    		<div class="form-group row">
+				<div class="col-sm-3">
+						<input type="submit" value="Display file content" />
+				</div>
+				</div>
 			
+				</form>
+				
+				
+				
+				
+				<c:if test="${not empty data}">
+					<table class="table table-hover table-striped">
+			    		<thead>
+			      			<tr>
+			      				<th>Y-Axis Variable</th>
+			        			<th>X-Axis Variables</th>
+			      			</tr>
+			    		</thead>
+			    		
+						<c:forEach items="${data}" var="row">
+							<tr>
+                				<c:forEach items="${row.value}" var="cell">
+                    				<td style="border:1px solid black;height:20px;width:100px;">
+                      				${cell.content}
+                    				</td>
+                				</c:forEach>
+            				</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+				
 		
 	<p>&nbsp;</p>
 	

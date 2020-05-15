@@ -141,6 +141,13 @@ public class BioVariable implements Serializable{
 	public int hashCode() {
 	    return (int) id * name.hashCode() * name.hashCode();
 	}
+
+	@Override
+	public String toString() {
+		return "BioVariable [id=" + id + ", name=" + name + ", description=" + description + ", symbol=" + symbol
+				+ ", uom=" + uom + ", addedBy=" + addedBy + ", updatedBy=" + updatedBy + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + "]";
+	}
 	
 	
 	

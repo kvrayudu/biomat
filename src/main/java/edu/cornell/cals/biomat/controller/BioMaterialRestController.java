@@ -1,9 +1,14 @@
 package edu.cornell.cals.biomat.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +19,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import edu.cornell.cals.biomat.excel.ExcelPOIHelper;
+
 import edu.cornell.cals.biomat.dao.BioFormula;
 import edu.cornell.cals.biomat.dao.BioMaterial;
 import edu.cornell.cals.biomat.dao.BioVariable;
+import edu.cornell.cals.biomat.excel.MyCell;
 import edu.cornell.cals.biomat.model.BioMaterialCompositionModel;
 import edu.cornell.cals.biomat.model.BioVariableAndCompostionModel;
 import edu.cornell.cals.biomat.model.material.BioMaterialGraphForm;
@@ -52,6 +61,9 @@ public class BioMaterialRestController {
 	
 	@Autowired
 	protected BioObservedPointService bioObservedPointService;
+	
+	@Resource(name = "excelPOIHelper")
+    private ExcelPOIHelper excelPOIHelper;
 
 
 	@PostMapping("getCalculatedDataPoints")
@@ -205,6 +217,51 @@ public class BioMaterialRestController {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String jsonVariablesArray = mapper.writeValueAsString(bioVariables);
+		
+		String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
+		logger.info("end searchBiVariables " + s);
+		return ResponseEntity.ok(s);
+	}
+	@GetMapping("getVariablesName")
+	public ResponseEntity<String>  searchBioVariablesName(@RequestParam(value="variableId", required=false) String variableId) throws Exception {
+		logger.info("Start searchBioVariables {} " + variableId);
+		
+		BioVariable bv=bioVariableService.getBioVariable(Integer.parseInt(variableId));
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonVariablesArray = mapper.writeValueAsString(bv);
+		
+		String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
+		logger.info("end searchBiVariables " + s);
+		return ResponseEntity.ok(s);
+	}
+
+	
+	
+	@GetMapping("getExcelContent")
+	public ResponseEntity<String> getExcelContent(@RequestParam(value="file", required=false) String fileLocation) throws Exception {
+		/*
+		InputStream in = file.getInputStream();
+	    File currDir = new File(".");
+	    String path = currDir.getAbsolutePath();
+	    String fileLocation = path.substring(0, path.length() - 1) + file.getOriginalFilename();
+	    FileOutputStream f = new FileOutputStream(fileLocation);
+	    int ch = 0;
+	    while ((ch = in.read()) != -1) {
+	        f.write(ch);
+	    }
+	    f.flush();
+	    f.close();
+	    */
+	    Map<Integer, List<MyCell>> data = null;
+	    
+	    if (fileLocation != null && (fileLocation.endsWith(".xlsx") || fileLocation.endsWith(".xls"))  ) {
+			data = excelPOIHelper.readExcel(fileLocation);
+		} 
+	    
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonVariablesArray = mapper.writeValueAsString(data);
 		
 		String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
 		logger.info("end searchBiVariables " + s);
