@@ -33,4 +33,6 @@ public interface BioVariableRepository extends JpaRepository<BioVariable, Intege
 	@Query(value="SELECT bv FROM BioVariable bv where bv.symbol in (:symbolList)")
     List<BioVariable> getVariableBySymbolList(@Param("symbolList") List symbbolList);
 
+	@Query(value="SELECT bv FROM BioVariable bv where bv.id = :id")
+    BioVariable getVariableById(@Param("id") Integer id);
 }

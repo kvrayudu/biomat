@@ -37,6 +37,11 @@ public class BioVariableAndCompostionModel {
 	public void setBioComposition(List<BioComposition> bioComposition) {
 		this.bioComposition = bioComposition;
 	}
+	@Override
+	public String toString() {
+		return "BioVariableAndCompostionModel [materialId=" + materialId + ", variableId=" + variableId
+				+ ", bioVariables=" + bioVariables + ", bioComposition=" + bioComposition + "]";
+	}
 	
 	
 	

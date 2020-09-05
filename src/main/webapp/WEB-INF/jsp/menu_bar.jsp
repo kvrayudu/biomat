@@ -29,6 +29,8 @@
 					<a class="dropdown-toggle" data-toggle="dropdown">Contribute Data<span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="addBioFormula">Add Formula</a></li>
+						<li><a href="addDiscreetData">Add Discreet Data</a></li>
+						<li><a href="showDiscreetData">Show Discreet Data</a></li>
 						<li><a href="addObservedPoint">Add Observed Points</a></li>
 						<li><li><a href="associateFormulaAndMaterial">Formula Material Association</a></li></li>
 						<li><a href="addBioMaterial">Add Bio-Material</a></li>

@@ -1,3 +1,4 @@
+
 package edu.cornell.cals.biomat.dao;
 
 import java.io.Serializable;
@@ -75,3 +76,4 @@ public class BioComposition implements Serializable{
 
 	
 }
+
