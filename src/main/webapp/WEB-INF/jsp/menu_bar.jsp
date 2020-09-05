@@ -10,7 +10,6 @@
 	<li><li><a href="searchBioVariables">Bio-Variables</a></li></li>
 		
 	<li><li><a href="graphBioMaterial">Chart Formula</a></li></li>
-	
 
 	
 	<c:choose>

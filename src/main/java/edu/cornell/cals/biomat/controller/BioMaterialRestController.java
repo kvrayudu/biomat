@@ -2,6 +2,7 @@ package edu.cornell.cals.biomat.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,19 +60,35 @@ public class BioMaterialRestController {
 		logger.info("getCalculatedDataPoints() {} {} {} ", bioMaterialGraphForm);
 		
 		try {
-			Map resultMap = bioFormulaService.getCalculatedDataPoints(
-					bioMaterialGraphForm.getSelectedBioFormulaId().longValue(),
-					bioMaterialGraphForm.getBioMaterialCompositionModelList(),
-					bioMaterialGraphForm.getSelectedDependentBioVariableId(),
-					bioMaterialGraphForm.getMinRange(),bioMaterialGraphForm.getMaxRange());
-			Map observedPointsMap  = bioObservedPointService.getBioObservedPointsMap( bioMaterialGraphForm.getSelectedDependentBioVariableId(), bioMaterialGraphForm.getSelectedBioVariableId(),bioMaterialGraphForm.getSelectedBioMaterialId());
-			resultMap.put("observedPointsX", observedPointsMap.get("OBSERVED_POINTS_X"));
-			resultMap.put("observedPointsY", observedPointsMap.get("OBSERVED_POINTS_Y"));
+			List<Integer> selectedBioMaterialList = bioMaterialGraphForm.getSelectedBioMaterialIdList();
+			List<Integer> selectedBioVariableList = bioMaterialGraphForm.getSelectedBioVariableIdList();
+			List<Integer> selectedBioFormulaList = bioMaterialGraphForm.getSelectedBioFormulaIdList();
+			List<List<BioMaterialCompositionModel>> bioMaterialCompositionModelListList = bioMaterialGraphForm.getBioMaterialCompositionModelListList();
+			Integer selectedDependentBioVariableId = bioMaterialGraphForm.getSelectedDependentBioVariableId();
+			Integer minRange = bioMaterialGraphForm.getMinRange();
+			Integer maxRange = bioMaterialGraphForm.getMaxRange();
+			Map resultMap = new HashMap<>();
+
+			for (int i=0; i < selectedBioMaterialList.size(); i++){
+				Integer curSelectedBioMaterialId = selectedBioMaterialList.get(i);
+				if (curSelectedBioMaterialId == null) continue;
+				Integer curSelectedBioVariableId = selectedBioVariableList.get(i);
+				Long curSelectedBioFormulaId = selectedBioFormulaList.get(i).longValue();
+				List<BioMaterialCompositionModel> curBioMaterialCompositionModelList = bioMaterialCompositionModelListList.get(i);
+				
+				int index = i + 1;
+				Map curMap = bioFormulaService.getCalculatedDataPoints(curSelectedBioFormulaId, curBioMaterialCompositionModelList, selectedDependentBioVariableId, minRange, maxRange);
+				Map observedPointsMap  = bioObservedPointService.getBioObservedPointsMap(selectedDependentBioVariableId, curSelectedBioVariableId, curSelectedBioMaterialId);
+				resultMap.put("dataPointsX" + index, curMap.get("dataPointsX"));
+				resultMap.put("dataPointsY" + index, curMap.get("dataPointsY"));
+				resultMap.put("observedPointsX" + index, observedPointsMap.get("OBSERVED_POINTS_X"));
+				resultMap.put("observedPointsY" + index, observedPointsMap.get("OBSERVED_POINTS_Y"));
+			}
 			ObjectMapper mapper = new ObjectMapper();
 			mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 			String jsonVariablesArray = mapper.writeValueAsString(resultMap );
 			String s="{\"msg\":\"\", \"data\":" + jsonVariablesArray +"}";
-			logger.info("Returning dataPointList{} {}  ", resultMap,s);
+			logger.info("Returning dataPointLists{} {}  ", resultMap, s);
 			return ResponseEntity.ok(s);
 		}
 		catch(ArithmeticException ae) {
